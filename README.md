@@ -3,8 +3,8 @@
 ## Database Schema Design
 
 
-![database-schema]: (https://github.com/Klevah101/HomesAwayFromHome/blob/main/images/schema.PNG)
-
+[database-schema]: (https://github.com/Klevah101/HomesAwayFromHome/blob/main/images/schema.PNG)
+![database-schema]
 
 ## API Documentation
 
