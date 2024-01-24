@@ -18,6 +18,16 @@ router.post('/', async (req, res, next) => {
             }
         }
     });
+    // console.log(user)
+    // const newObj = { User };
+    // newObj.User = user.dataValues;
+    // console.log(newObj);
+
+    let jsonUser = JSON.stringify(user);
+    jsonUser = JSON.parse(jsonUser);
+    console.log(jsonUser)
+
+    // console.log(typeof user)
 
     if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
         const err = new Error('Login failed');
@@ -41,4 +51,11 @@ router.post('/', async (req, res, next) => {
 }
 );
 
+router.delete(
+    '/',
+    (_req, res) => {
+        res.clearCookie('token');
+        return res.json({ message: 'success' });
+    }
+);
 module.exports = router;
