@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 const { check } = require('express-validator');
+const { authCheck } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Review } = require('../../db/models');
 
@@ -20,22 +21,22 @@ const validateReview = [
 
 
 // REQ AUTH - Get Reviews of Current User
-router.get('/current', async (req, res, next) => {
+router.get('/current', authCheck, async (req, res, next) => {
     res.json({ route: "get/reviews/current" })
 })
 
 // REQ AUTH - Create an Image for a Review
-router.post('/:reviewId/images', async (req, res, next) => {
+router.post('/:reviewId/images', authCheck, async (req, res, next) => {
     res.json({ route: "post/reviews/:reviewId/images" })
 })
 
 // REQ AUTH - Edit a Review
-router.put('/:reviewId', validateReview, async (req, res, next) => {
+router.put('/:reviewId', authCheck, validateReview, async (req, res, next) => {
     res.json({ route: "put/reviews/:reviewId" })
 })
 
 // REQ AUTH - Delete a Review
-router.delete('/:reviewId', async (req, res, next) => {
+router.delete('/:reviewId', authCheck, async (req, res, next) => {
     res.json({ route: "delete/reviews/:reviewId" })
 })
 

@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
-const { setTokenCookie, restoreUser } = require('../../utils/auth');
+const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
 
 const router = express.Router();
@@ -73,22 +73,28 @@ router.delete('/', (_req, res) => {
 }
 );
 
-router.get('/', (req, res) => {
+router.get('/', authCheck, (req, res) => {
     const { user } = req;
-    if (user) {
-        const safeUser = {
-            id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            username: user.username,
-        };
-        return res.json({
-            user: safeUser
-        });
-    } else return res.json({ user: null });
+    // if (user) {
+    const safeUser = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+    };
+    return res.json({
+        user: safeUser
+    });
+    // } else return res.json({ user: null });
 }
 );
+
+function authCheck(req, res, next) {
+    const { user } = req;
+    if (user === null) return res.status(401).json({ message: "Authentication required" });
+    next();
+}
 
 
 module.exports = router;

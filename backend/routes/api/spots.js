@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const { authCheck } = require('../../utils/auth');
 const { Spot } = require('../../db/models');
 
 const validateSpot = [
@@ -70,7 +71,7 @@ router.get('/', async (req, res, next) => {
 })
 
 // REQ AUTH - Get Spots of Current User
-router.get('/current', async (req, res, next) => {
+router.get('/current', authCheck, async (req, res, next) => {
 
     return res.json(req.user)
     // return res.json({ route: "get/spots/current" })
@@ -82,7 +83,7 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 })
 
 // REQ AUTH - Get All Bookings for a Spot
-router.get('/:spotId/bookings', async (req, res, next) => {
+router.get('/:spotId/bookings', authCheck, async (req, res, next) => {
     res.json({ route: "get/spots/:spotId/bookings" })
 })
 
@@ -92,32 +93,32 @@ router.get('/:spotId', async (req, res, next) => {
 })
 
 // REQ AUTH - Create a Spot
-router.post('/', validateSpot, async (req, res, next) => {
+router.post('/', authCheck, validateSpot, async (req, res, next) => {
     res.json({ route: "post/spots" })
 })
 
 // REQ AUTH - Create a Review for a Spot
-router.post('/:spotId/reviews', validateReview, async (req, res, next) => {
+router.post('/:spotId/reviews', authCheck, validateReview, async (req, res, next) => {
     res.json({ route: "post/spots/:spotId/reviews" })
 })
 
 // REQ AUTH - Create an Image for a Spot
-router.post('/:spotId/images', async (req, res, next) => {
+router.post('/:spotId/images', authCheck, async (req, res, next) => {
     res.json({ route: "post/spots/:spotId/images" })
 })
 
 // REQ AUTH - Create a Booking
-router.post('/:spotId/bookings', async (req, res, next) => {
+router.post('/:spotId/bookings', authCheck, async (req, res, next) => {
     res.json({ route: "post/spots/:spotId/bookings" })
 })
 
 // REQ AUTH - Edit a Spot
-router.put('/:spotId', validateSpot, async (req, res, next) => {
+router.put('/:spotId', authCheck, validateSpot, async (req, res, next) => {
     res.json({ route: "put/spots/:spotId" })
 })
 
 // REQ AUTH - Delete a Spot
-router.delete('/:spotId', async (req, res, next) => {
+router.delete('/:spotId', authCheck, async (req, res, next) => {
     res.json({ route: "delete/spots/:spotId" })
 })
 
