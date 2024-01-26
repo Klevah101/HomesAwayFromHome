@@ -71,7 +71,9 @@ router.get('/', async (req, res, next) => {
 
 // REQ AUTH - Get Spots of Current User
 router.get('/current', async (req, res, next) => {
-    res.json({ route: "get/spots/current" })
+
+    return res.json(req.user)
+    // return res.json({ route: "get/spots/current" })
 })
 
 // Get Reviews by Spot Id - Verify Creation, Prevention, Image Update
