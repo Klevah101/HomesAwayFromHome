@@ -20,10 +20,10 @@ const validateCreateSpot = [
         .exists({ checkFalsy: true })
         .withMessage('Country is required'),
     check('lat')
-        .isFloat()
+        .isLatLong({ checkDMS: false })
         .withMessage('Latitude is not valid'),
     check('lng')
-        .isFloat()
+        .isLatLong({ checkDMS: true })
         .withMessage('Longitude is not valid'),
     check('name')
         .isLength({ max: 50 })
@@ -33,6 +33,12 @@ const validateCreateSpot = [
         .withMessage('Description is required'),
     check('price')
         .exists({ checkFalsy: true })
+        .custom(val => {
+            if (val <= 0) {
+                throw new Error('Price is too low');
+            };
+            return true;
+        }) ///////////////////////////////////////////////////////////////
         .withMessage('Price per day is required'),
     handleValidationErrors
 ];
