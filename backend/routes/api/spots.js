@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Spot } = require('../../db/models');
 
-const validateCreateSpot = [
+const validateSpot = [
     check('address')
         .exists({ checkFalsy: true })
         .notEmpty()
@@ -20,10 +20,18 @@ const validateCreateSpot = [
         .exists({ checkFalsy: true })
         .withMessage('Country is required'),
     check('lat')
-        .isLatLong({ checkDMS: false })
+        // .isLatLong() // not correct, might change to custom
+        .custom(val => {
+            if (val > 90 || val < -90) return false;
+            return true;
+        })
         .withMessage('Latitude is not valid'),
     check('lng')
-        .isLatLong({ checkDMS: true })
+        // .isLatLong() // not correct, might change to custom
+        .custom(val => {
+            if (val > 180 || val < -180) return false;
+            return true;
+        })
         .withMessage('Longitude is not valid'),
     check('name')
         .isLength({ max: 50 })
@@ -34,12 +42,25 @@ const validateCreateSpot = [
     check('price')
         .exists({ checkFalsy: true })
         .custom(val => {
-            if (val <= 0) {
-                throw new Error('Price is too low');
-            };
+            if (val <= 0) return false;
             return true;
         }) ///////////////////////////////////////////////////////////////
         .withMessage('Price per day is required'),
+    handleValidationErrors
+];
+
+
+const validateReview = [
+    check('review')
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage('Review text is required'),
+    check('stars')
+        .custom(val => {
+            if (val <= 0 || val > 5) return false;
+            return true;
+        })
+        .withMessage('Stars must be an integer from 1 to 5'),
     handleValidationErrors
 ];
 
@@ -69,12 +90,12 @@ router.get('/:spotId', async (req, res, next) => {
 })
 
 // REQ AUTH - Create a Spot
-router.post('/', validateCreateSpot, async (req, res, next) => {
+router.post('/', validateSpot, async (req, res, next) => {
     res.json({ route: "post/spots" })
 })
 
 // REQ AUTH - Create a Review for a Spot
-router.post('/:spotId/reviews', async (req, res, next) => {
+router.post('/:spotId/reviews', validateReview, async (req, res, next) => {
     res.json({ route: "post/spots/:spotId/reviews" })
 })
 
@@ -89,7 +110,7 @@ router.post('/:spotId/bookings', async (req, res, next) => {
 })
 
 // REQ AUTH - Edit a Spot
-router.put('/:spotId', async (req, res, next) => {
+router.put('/:spotId', validateSpot, async (req, res, next) => {
     res.json({ route: "put/spots/:spotId" })
 })
 
