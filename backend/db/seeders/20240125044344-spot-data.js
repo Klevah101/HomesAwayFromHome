@@ -26,12 +26,11 @@ module.exports = {
         city: 'Boston',
         state: 'Massachusetts',
         country: 'United States',
-        lat: 553.2,
-        lng: 127.7,
+        lat: -89.2,
+        lng: 80.7,
         name: 'The Shack',
         description: 'Only five holes in the roof. Front door to be fixed "soon."',
         price: 400.99
-
       },
     ];
 

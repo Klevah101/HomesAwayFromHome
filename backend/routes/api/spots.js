@@ -3,7 +3,7 @@ const router = require('express').Router();
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { authCheck } = require('../../utils/auth');
-const { Spot } = require('../../db/models');
+const { Spot, User, SpotImage } = require('../../db/models');
 
 const validateSpot = [
     check('address')
@@ -67,7 +67,22 @@ const validateReview = [
 
 // Get All Spots With Params
 router.get('/', async (req, res, next) => {
-    res.json({ route: "get/spots?" })
+    // const stuff = await User.findAll({
+    //     include: [{
+    //         model: Spot,
+    //     }],
+    // })
+    const stuff = await Spot.findAll({
+        include: [{
+            model: User,
+            as: "owner"
+        }, {
+            model: SpotImage
+        }],
+
+    })
+    res.json(stuff)
+    // res.json({ route: "get/spots?" })
 })
 
 // REQ AUTH - Get Spots of Current User

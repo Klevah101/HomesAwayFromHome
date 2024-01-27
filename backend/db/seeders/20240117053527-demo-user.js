@@ -1,11 +1,41 @@
 'use strict';
-const { User } = require('../models');
+const { User, Sequelize } = require('../models');
 const bcrypt = require("bcryptjs");
 let options = {};
 
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 }
+
+const { Op } = Sequelize;
+const dataset1 = [
+  {
+    email: 'demo@user.io',
+    username: 'Demo-lition',
+    hashedPassword: bcrypt.hashSync('password')
+  },
+  {
+    email: 'user1@user.io',
+    username: 'FakeUser1',
+    hashedPassword: bcrypt.hashSync('password2')
+  },
+  {
+    email: 'user2@user.io',
+    username: 'FakeUser2',
+    hashedPassword: bcrypt.hashSync('password3')
+  }
+]
+
+
+const dataset2 = [
+  {
+    firstName: 'Nsilo',
+    lastName: 'Brown',
+    email: 'chuck@appacademy.io',
+    username: 'Chuck',
+    hashedPassword: bcrypt.hashSync('password')
+  }
+];
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -19,35 +49,6 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    const dataset1 = [
-      {
-        email: 'demo@user.io',
-        username: 'Demo-lition',
-        hashedPassword: bcrypt.hashSync('password')
-      },
-      {
-        email: 'user1@user.io',
-        username: 'FakeUser1',
-        hashedPassword: bcrypt.hashSync('password2')
-      },
-      {
-        email: 'user2@user.io',
-        username: 'FakeUser2',
-        hashedPassword: bcrypt.hashSync('password3')
-      }
-    ]
-
-
-    const dataset2 = [
-      {
-        firstName: 'Nsilo',
-        lastName: 'Brown',
-        email: 'chuck@appacademy.io',
-        username: 'Chuck',
-        hashedPassword: bcrypt.hashSync('password')
-      }
-    ];
-
 
     await User.bulkCreate(dataset2, {
       validate: true
@@ -66,5 +67,13 @@ module.exports = {
     // return queryInterface.bulkDelete(options, {
     //   username: { [Op.in]: ['Demo-lition', 'FakeUser1', 'FakeUser2'] }
     // }, {});
+    const emailNames = dataset2.map(el => el.email);
+
+    await queryInterface.bulkDelete('Users', {
+      email: {
+        [Op.in]: emailNames
+      }
+    })
   }
+
 };
