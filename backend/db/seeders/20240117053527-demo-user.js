@@ -34,6 +34,13 @@ const dataset2 = [
     email: 'chuck@appacademy.io',
     username: 'Chuck',
     hashedPassword: bcrypt.hashSync('password')
+  },
+  {
+    firstName: 'Chuck',
+    lastName: 'Brown',
+    email: 'mrbrown@appacademy.io',
+    username: 'MrBrown',
+    hashedPassword: bcrypt.hashSync('wordpass')
   }
 ];
 

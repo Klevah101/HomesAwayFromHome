@@ -26,6 +26,11 @@ module.exports = {
         spotId: 1,
         url: 'https://previews.123rf.com/images/tomcat2170/tomcat21700903/tomcat2170090300025/4567148-old-worn-down-house.jpg',
         preview: true
+      },
+      {
+        spotId: 2,
+        url: 'https://stock.adobe.com/images/shack/74440165',
+        preview: false
       }
     ];
 

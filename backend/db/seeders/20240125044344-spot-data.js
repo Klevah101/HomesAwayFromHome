@@ -29,7 +29,19 @@ module.exports = {
         lat: -89.2,
         lng: 80.7,
         name: 'The Shack',
-        description: 'Only five holes in the roof. Front door to be fixed "soon."',
+        description: 'Only five holes in the roof. Front door to be fixed soon.',
+        price: 400.99
+      },
+      {
+        ownerId: 1,
+        address: '321 Fake St',
+        city: 'Boston',
+        state: 'Massachusetts',
+        country: 'United States',
+        lat: -86.2,
+        lng: 80.7,
+        name: 'The other Shack',
+        description: 'No holes in the roof. Front door works.',
         price: 400.99
       },
     ];

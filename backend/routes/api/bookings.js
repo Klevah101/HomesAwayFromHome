@@ -7,7 +7,16 @@ const { authCheck } = require('../../utils/auth');
 
 //  REQ AUTH - Get All Current User's Bookings
 router.get('/current', authCheck, async (req, res, next) => {
-    res.json({ route: "get/bookings/current" })
+    const { user } = req;
+
+    const bookings = Booking.findAll({
+        where: {
+            userId: user.id
+        }
+    })
+
+    return res.json(bookings)
+    // res.json({ route: "get/bookings/current" })
 })
 
 // REQ AUTH - Edit a Booking

@@ -25,6 +25,12 @@ module.exports = {
         spotId: 1,
         review: "Not sure if I would recommend this one. Lots more holes in the roof then stated in the advert. Will be asking for a refund.",
         stars: 1
+      },
+      {
+        userId: 2,
+        spotId: 1,
+        review: "Wonderful place",
+        stars: 5
       }
     ];
 
