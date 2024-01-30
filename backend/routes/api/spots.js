@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { sequelize } = require('sequelize')
+const { Op } = require('sequelize')
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { authCheck } = require('../../utils/auth');
@@ -195,7 +195,7 @@ router.get('/:spotId/reviews', async (req, res, next) => {
         next(err);
     }
 
-    res.json(reviews)
+    return res.json(reviews)
     // res.json({ route: "get/spots/:spotId/reviews" })
 })
 
@@ -203,25 +203,37 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 router.get('/:spotId/bookings', authCheck, async (req, res, next) => {
 
 
+    const { user } = req;
     const { spotId } = req.params;
 
-    const spotsBookings = await Booking.findAll({
-        where: {
-            spotId: spotId
-        }
-    })
+    let spotsBookings
+    if (user) {
+        spotsBookings = await Booking.findAll({
+            where: {
+                spotId: spotId,
+                userId: user.id
+            }
+        })
+    } else {
 
-    if(spotsBookings.length ===0){
+        spotsBookings = await Booking.findAll({
+            where: {
+                spotId: spotId
+            }
+        })
+    }
+
+    if (spotsBookings.length === 0) {
         // create err 
         const err = new Error("Spot couldn't be found")
         // set error title
         // set status code
         err.status = 404;
         // next(err)
-        next(err); 
+        next(err);
     }
     // return res.json(booking)
-    res.json(spotsBookings)
+    return res.json(spotsBookings)
     // res.json({ route: "get/spots/:spotId/bookings" })
 })
 
@@ -255,7 +267,7 @@ router.get('/:spotId', async (req, res, next) => {
         // set status code
         err.status = 404;
         // next(err)
-        next(err);
+        return next(err);
     }
 
 
@@ -302,7 +314,7 @@ router.post('/:spotId/reviews', authCheck, validateReview, async (req, res, next
         // set status code
         err.status = 404;
         // next(err)
-        next(err);
+        return next(err);
 
     }
 
@@ -315,14 +327,14 @@ router.post('/:spotId/reviews', authCheck, validateReview, async (req, res, next
 
     console.log(prevReview);
 
-    if (prevReview !== null) {
+    if (prevReview.length > 0) {
         // create err 
         const err = new Error("User already has a review for this spot")
         // set error title
         // set status code
         err.status = 500;
         // next(err)
-        next(err);
+        return next(err);
     }
 
     const reviewEntry = {
@@ -334,6 +346,7 @@ router.post('/:spotId/reviews', authCheck, validateReview, async (req, res, next
 
     const newReview = await Review.create(reviewEntry)
 
+    console.log(newReview);
     return res.json(newReview)
     // return res.json({ route: "post/spots/:spotId/reviews" })
 })
@@ -345,14 +358,14 @@ router.post('/:spotId/images', authCheck, async (req, res, next) => {
     const { url, preview } = req.body
 
     const spot = await Spot.findByPk(spotId)
-    if (spot.ownerId !== spotId) {
+    if (spot.ownerId !== user.id) {
         // create err 
         const err = new Error("Forbidden")
         // set error title maybe
         // set status code
         err.status = 403;
         // next(err)
-        next(err);
+        return next(err);
     }
     // console.log('//////////////', spotId)
     // const spot = Spot.findOne({
@@ -386,6 +399,8 @@ router.post('/:spotId/bookings', authCheck, async (req, res, next) => {
     const { startDate, endDate } = req.body;
 
 
+
+
     const bookingEntry = {
         startDate: startDate,
         endDate: endDate,
@@ -393,8 +408,137 @@ router.post('/:spotId/bookings', authCheck, async (req, res, next) => {
         userId: user.id,
     };
 
+    if (bookingEntry.startDate >= bookingEntry.endDate) {
+        // create err 
+        const err = new Error("Bad Request")
+        // set error title
+        // set status code
+        err.status = 400;
+        // next(err)
+        err.errors = {};
+        err.errors.endDate = "endDate cannot be on or before startDate";
+        return next(err);
+    }
+
+
+    const conflicts = await Spot.findAll({
+        include: {
+            model: Booking,
+            where: {
+                spotId: spotId,
+                [Op.or]: [
+                    {
+                        [Op.and]: [
+                            { startDate: { [Op.lt]: new Date(bookingEntry.startDate) } },
+                            { endDate: { [Op.gt]: new Date(bookingEntry.startDate) } },
+                        ]
+                    },
+                    {
+                        [Op.or]: [
+                            { startDate: { [Op.eq]: new Date(bookingEntry.startDate) } },
+                            { endDate: { [Op.eq]: new Date(bookingEntry.endDate) } },
+                            { startDate: { [Op.eq]: new Date(bookingEntry.endDate) } },
+                            { endDate: { [Op.eq]: new Date(bookingEntry.startDate) } },
+                        ]
+                    },
+                    {
+                        [Op.and]: [
+                            { startDate: { [Op.lt]: new Date(bookingEntry.endDate) } },
+                            { endDate: { [Op.gt]: new Date(bookingEntry.endDate) } },
+                        ]
+                    },
+                    {
+                        [Op.and]: [
+                            { startDate: { [Op.gt]: new Date(bookingEntry.startDate) } },
+                            { endDate: { [Op.gt]: new Date(bookingEntry.startDate) } },
+                            { startDate: { [Op.lt]: new Date(bookingEntry.endDate) } },
+                            { endDate: { [Op.lt]: new Date(bookingEntry.endDate) } },
+                        ]
+                    }
+                ]
+            }
+        }
+    })
+
+
+
+
+    // console.log(conflicts)
+
+    if (conflicts[0]) {
+        // do error thingo
+        const err = new Error('Sorry, this spot is already booked for the specified dates');
+        err.errors = {};
+        err.status = 403;
+
+        for (let i = 0; i < conflicts[0].Bookings.length; i++) {
+            // console.log('start date', conflicts[0].Bookings[0].startDate)
+            // console.log('end date', conflicts[0].Bookings[0].endDate)
+            // console.log('bookingEntry start date', new Date(bookingEntry.startDate))
+            // console.log('start date test', new Date(bookingEntry.startDate) >= conflicts[0].Bookings[0].startDate && new Date(bookingEntry.startDate) <= conflicts[0].Bookings[0].endDate)
+            if (new Date(bookingEntry.startDate) >= conflicts[0].Bookings[i].startDate && new Date(bookingEntry.startDate) <= conflicts[0].Bookings[i].endDate) {
+                // console.log('start date err')
+
+                // next(err)
+
+                err.errors.startDate = "Start date conflicts with an existing booking";
+
+            }              // console.log('start date test', bookingEntry.startDate == conflicts[0].Bookings[0].startDate)
+        }
+
+        for (let i = 0; i < conflicts[0].Bookings.length; i++) {
+            // console.log('start date', conflicts[0].Bookings[0].startDate)
+            // console.log('end date', conflicts[0].Bookings[0].endDate)
+            // console.log('bookingEntry start date', new Date(bookingEntry.startDate))
+            // console.log('start date test', new Date(bookingEntry.startDate) >= conflicts[0].Bookings[0].startDate && new Date(bookingEntry.startDate) <= conflicts[0].Bookings[0].endDate)
+            if (new Date(bookingEntry.endDate) >= conflicts[0].Bookings[i].startDate && new Date(bookingEntry.endDate) <= conflicts[0].Bookings[i].endDate) {
+                // console.log('end date err')
+                err.errors.endDate = "End date conflicts with an existing booking";
+            }              // console.log('start date test', bookingEntry.startDate == conflicts[0].Bookings[0].startDate)
+        }
+
+        for (let i = 0; i < conflicts[0].Bookings.length; i++) {
+            // console.log('start date', conflicts[0].Bookings[0].startDate)
+            // console.log('end date', conflicts[0].Bookings[0].endDate)
+            // console.log('bookingEntry start date', new Date(bookingEntry.startDate))
+            // console.log('start date test', new Date(bookingEntry.startDate) >= conflicts[0].Bookings[0].startDate && new Date(bookingEntry.startDate) <= conflicts[0].Bookings[0].endDate)
+            if (
+                new Date(bookingEntry.endDate) > conflicts[0].Bookings[i].startDate
+                && new Date(bookingEntry.endDate) > conflicts[0].Bookings[i].endDate
+                && new Date(bookingEntry.startDate) < conflicts[0].Bookings[i].startDate
+                && new Date(bookingEntry.startDate) < conflicts[0].Bookings[i].endDate
+            ) {
+                // console.log('booking surrounds date err')
+                err.errors.startDate = "Start date conflicts with an existing booking";
+                err.errors.endDate = "End date conflicts with an existing booking";
+            }              // console.log('start date test', bookingEntry.startDate == conflicts[0].Bookings[0].startDate)
+        }
+        return next(err);
+    }
+
+    const spot = await Spot.findOne({
+        where: {
+            id: spotId
+        }
+    })
+
+
+    if (spot === null) {
+        const err = new Error("Spot couldn't be found")
+        return next(err);
+    }
+
+    // if (spot.ownerId === user.id) {
+    //     const err = new Error("Forbidden");
+    //     err.status = 403;
+    //     next(err);
+    // }
+
     const booking = await Booking.create(bookingEntry);
-    res.json(booking)
+    return res.json(booking)
+
+
+
     // res.json({ route: "post/spots/:spotId/bookings" })
 })
 
@@ -413,7 +557,7 @@ router.put('/:spotId', authCheck, validateSpot, async (req, res, next) => {
         // set status code
         err.status = 404;
         // next(err)
-        next(err);
+        return next(err);
     }
 
     if (spot.ownerId !== user.id) {
@@ -423,7 +567,7 @@ router.put('/:spotId', authCheck, validateSpot, async (req, res, next) => {
         // set status code
         err.status = 403;
         // next(err)
-        next(err);
+        return next(err);
     }
 
     if (address) newTable["address"] = address
@@ -458,13 +602,13 @@ router.delete('/:spotId', authCheck, async (req, res, next) => {
         // set status code
         err.status = 403;
         // next(err)
-        next(err);
+        return next(err);
     }
 
 
     await Spot.destroy(spot)
 
-    res.json({ route: "delete/spots/:spotId" })
+    return res.json({ route: "delete/spots/:spotId" })
     // res.json({ route: "delete/spots/:spotId" })
 })
 

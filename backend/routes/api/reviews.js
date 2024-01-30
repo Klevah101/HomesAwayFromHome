@@ -28,14 +28,20 @@ router.get('/current', authCheck, async (req, res, next) => {
             userId: user.id
         }
     })
-    res.json(reviews)
+    return res.json(reviews)
     // res.json({ route: "get/reviews/current" })
 })
 
 // REQ AUTH - Create an Image for a Review
 router.post('/:reviewId/images', authCheck, async (req, res, next) => {
+
+    // reviewId is null in postman.  ask for help.
+
+    const { user } = req;
     const { reviewId } = req.params;
     const { url } = req.body;
+
+
 
     const review = await Review.findByPk(reviewId)
 
@@ -46,8 +52,16 @@ router.post('/:reviewId/images', authCheck, async (req, res, next) => {
         // set status code
         err.status = 404;
         // next(err)
-        next(err);
+        return next(err);
     }
+
+
+    if (review.userId !== user.id) {
+        const err = new Error("Forbidden");
+        err.status = 403;
+        return next(err);
+    }
+
 
     const numReviewImages = await ReviewImage.count({
         where: {
@@ -61,7 +75,7 @@ router.post('/:reviewId/images', authCheck, async (req, res, next) => {
         // set status code
         err.status = 403;
         // next(err)
-        next(err);
+        return next(err);
     }
 
     const newReviewImageEntry = {
@@ -83,14 +97,14 @@ router.put('/:reviewId', authCheck, validateReview, async (req, res, next) => {
 
     const gotReview = await Review.findByPk(reviewId);
 
-    if(gotReview === null){
-          // create err 
-          const err = new Error("Review couldn't be found")
-          // set error title
-          // set status code
-          err.status = 404;
-          // next(err)
-          next(err);
+    if (gotReview === null) {
+        // create err 
+        const err = new Error("Review couldn't be found")
+        // set error title
+        // set status code
+        err.status = 404;
+        // next(err)
+        return next(err);
     }
 
     const reviewEntry = {}
@@ -100,13 +114,13 @@ router.put('/:reviewId', authCheck, validateReview, async (req, res, next) => {
 
     await gotReview.update(reviewEntry);
 
-    res.json(gotReview)
+    return res.json(gotReview)
     // res.json({ route: "put/reviews/:reviewId" })
 })
 
 // REQ AUTH - Delete a Review
 router.delete('/:reviewId', authCheck, async (req, res, next) => {
-    res.json({ route: "delete/reviews/:reviewId" })
+    return res.json({ route: "delete/reviews/:reviewId" })
 })
 
 module.exports = router;

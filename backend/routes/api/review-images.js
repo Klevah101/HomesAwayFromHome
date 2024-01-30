@@ -7,7 +7,7 @@ const { authCheck } = require('../../utils/auth');
 
 // REQ AUTH - Delete a Review Image
 router.delete('/:imageId', authCheck, async (req, res, next) => {
-    res.json({ route: "delete/review-images/:imageId" })
+    return   res.json({ route: "delete/review-images/:imageId" })
 })
 
 module.exports = router;
