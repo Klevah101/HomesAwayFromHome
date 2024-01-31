@@ -36,7 +36,7 @@ router.put('/:bookingId', authCheck, async (req, res, next) => {
 
     if (booking === null) {
         const err = new Error("Booking couldn't be found")
-      return  next(err);
+        return next(err);
     }
 
     const bookingEdit = {
@@ -53,7 +53,7 @@ router.put('/:bookingId', authCheck, async (req, res, next) => {
         // next(err)
         err.errors = {};
         err.errors.endDate = "endDate cannot be on or before startDate";
-     return   next(err);
+        return next(err);
     }
 
     const conflicts = await Booking.findAll({
@@ -141,7 +141,7 @@ router.put('/:bookingId', authCheck, async (req, res, next) => {
                 err.errors.endDate = "End date conflicts with an existing booking";
             }              // console.log('start date test', bookingEntry.startDate == conflicts[0].Bookings[0].startDate)
         }
-        return   next(err);
+        return next(err);
     }
 
 
@@ -157,7 +157,18 @@ router.put('/:bookingId', authCheck, async (req, res, next) => {
 
 // REQ AUTH - Delete a Booking
 router.delete('/:bookigId', authCheck, async (req, res, next) => {
-    return res.json({ route: "delete/bookings/:bookingId" })
+    const { bookingId } = req.params;
+
+    const booking = await Booking.findOne({
+        where: {
+            id: bookingId
+        }
+    })
+
+    const end = await Booking.destroy(booking);
+
+    return res.json(end)
+    // return res.json({ route: "delete/bookings/:bookingId" })
 })
 
 

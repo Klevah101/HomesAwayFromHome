@@ -120,7 +120,14 @@ router.put('/:reviewId', authCheck, validateReview, async (req, res, next) => {
 
 // REQ AUTH - Delete a Review
 router.delete('/:reviewId', authCheck, async (req, res, next) => {
-    return res.json({ route: "delete/reviews/:reviewId" })
+
+    const { reviewId } = req.params;
+
+    const review = await Review.findByPk(reviewId)
+    await Review.destroy(review);
+
+    return res.json("ded")
+    // return res.json({ route: "delete/reviews/:reviewId" })
 })
 
 module.exports = router;

@@ -68,11 +68,22 @@ const validateReview = [
 
 // Get All Spots With Params
 router.get('/', async (req, res, next) => {
+
+    const { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+
     // const stuff = await User.findAll({
     //     include: [{
     //         model: Spot,
     //     }],
     // })
+
+    const filter = {};
+
+    // {[Op.and]:{lat:[Op.between]:[minLat,maxLat]}}
+
+
+
+
     let spots = await Spot.findAll({
         include: [{
             model: SpotImage,
@@ -105,8 +116,8 @@ router.get('/', async (req, res, next) => {
     // })
 
     for (let i = spots.length - 1; i >= 0; i--) {
-        if (spots[i].SpotImages[0] !== null) {
-            spots[i]["previewImage"] = spots[i].SpotImages[0];
+        if (spots[i].SpotImages[0]) {
+            spots[i]["previewImage"] = spots[i].SpotImages[0].url;
         }
         if (spots[i].Reviews.length > 0) {
             sum = 0;
@@ -192,7 +203,7 @@ router.get('/:spotId/reviews', async (req, res, next) => {
         // set status code
         err.status = 404;
         // next(err)
-        next(err);
+        return next(err);
     }
 
     return res.json(reviews)
@@ -230,7 +241,7 @@ router.get('/:spotId/bookings', authCheck, async (req, res, next) => {
         // set status code
         err.status = 404;
         // next(err)
-        next(err);
+        return next(err);
     }
     // return res.json(booking)
     return res.json(spotsBookings)
@@ -241,8 +252,8 @@ router.get('/:spotId/bookings', authCheck, async (req, res, next) => {
 router.get('/:spotId', async (req, res, next) => {
     const { spotId } = req.params;
 
-    console.log(spotId)
-    const spot = await Spot.findOne({
+    // console.log(spotId)
+    let spot = await Spot.findOne({
         where: {
             id: parseInt(spotId)
         },
@@ -253,6 +264,7 @@ router.get('/:spotId', async (req, res, next) => {
         {
             model: User,
             as: 'Owner',
+            attributes: ['id', 'firstName', 'lastName']
         },
         {
             model: Review,
@@ -271,6 +283,22 @@ router.get('/:spotId', async (req, res, next) => {
     }
 
 
+    spot = JSON.stringify(spot);
+    spot = JSON.parse(spot);
+
+    let sumReviews = 0;
+    let avgStarRating = 0;
+
+    for (let i = 0; i < spot.Reviews.length; i++) {
+        sumReviews += spot.Reviews.stars;
+        if (i === spot.Reviews.length - 1) avgStarRating = sumReviews / i;
+    }
+    console.log(sumReviews)
+
+    spot.numReviews = spot.Reviews.length;
+    spot.avgStarRating = avgStarRating;
+    delete spot.Reviews;
+
     return res.json(spot);
     // res.json({ route: "get/spots/:spotId" })
 })
@@ -281,6 +309,7 @@ router.post('/', authCheck, validateSpot, async (req, res, next) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body
 
     const spot = await Spot.create({
+        ownerId: user.id,
         address: address,
         city: city,
         state: state,
@@ -289,11 +318,12 @@ router.post('/', authCheck, validateSpot, async (req, res, next) => {
         lng: lng,
         name: name,
         description: description,
-        price: price,
-        ownerId: user.id
+        price: price
+
     })
 
     // res.status(201)
+    res.status(201);
     return res.json(spot)
     // res.json({ route: "post/spots" })
 })
@@ -325,7 +355,7 @@ router.post('/:spotId/reviews', authCheck, validateReview, async (req, res, next
         }
     })
 
-    console.log(prevReview);
+    // console.log(prevReview);
 
     if (prevReview.length > 0) {
         // create err 
@@ -346,7 +376,7 @@ router.post('/:spotId/reviews', authCheck, validateReview, async (req, res, next
 
     const newReview = await Review.create(reviewEntry)
 
-    console.log(newReview);
+    // console.log(newReview);
     return res.json(newReview)
     // return res.json({ route: "post/spots/:spotId/reviews" })
 })
@@ -358,6 +388,17 @@ router.post('/:spotId/images', authCheck, async (req, res, next) => {
     const { url, preview } = req.body
 
     const spot = await Spot.findByPk(spotId)
+    // console.log(spot)
+
+    if (spot === null) {
+        const err = new Error("Spot couldn't be found")
+        // set error title maybe
+        // set status code
+        err.status = 404;
+        // next(err)
+        return next(err);
+    }
+
     if (spot.ownerId !== user.id) {
         // create err 
         const err = new Error("Forbidden")
@@ -574,13 +615,13 @@ router.put('/:spotId', authCheck, validateSpot, async (req, res, next) => {
     if (city) newTable["city"] = city
     if (state) newTable["state"] = state
     if (country) newTable["country"] = country
-    if (lat) newTable["lat"] = lat  // can be 0 which is falsy
-    if (lng) newTable["lng"] = lng  // can be 0 which is falsy
+    if (lat) newTable["lat"] = lat  // can be 0 which is falsy - need to correct
+    if (lng) newTable["lng"] = lng  // can be 0 which is falsy - need to correct
     if (name) newTable["name"] = name
     if (description) newTable["description"] = description
     if (price) newTable["price"] = price
 
-    console.log(newTable)
+    // console.log(newTable)
 
     spot.update(newTable);
 
@@ -604,11 +645,15 @@ router.delete('/:spotId', authCheck, async (req, res, next) => {
         // next(err)
         return next(err);
     }
+    await spot.destroy({ force: true });
+    // console.log(spot)
+    // await Spot.destroy({
+    //     where: {
+    //         id: spotId
+    //     }
+    // })
 
-
-    await Spot.destroy(spot)
-
-    return res.json({ route: "delete/spots/:spotId" })
+    return res.json({ "message": "Successfully deleted" })
     // res.json({ route: "delete/spots/:spotId" })
 })
 

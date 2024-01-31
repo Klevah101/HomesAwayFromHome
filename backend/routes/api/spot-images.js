@@ -10,8 +10,10 @@ router.delete('/:imageId', authCheck, async (req, res, next) => {
 
     const { user } = req;
     const { imageId } = req.params;
+    // console.log(imageId)
 
-    const spotImage = await SpotImage.findByPk(imageId)
+
+    // console.log(spotImage)
     const spot = await Spot.findByPk(spotImage.spotId)
 
     // console.log(spot.ownerId)
@@ -28,10 +30,12 @@ router.delete('/:imageId', authCheck, async (req, res, next) => {
             return next(err);
         }
     }
+    
+    const spotImage = await SpotImage.findByPk(imageId)
+    await spotImage.destroy();
 
-    await SpotImage.destroy(spotImage);
-
-    return res.json({ route: "delete/spot-images/:imageId" })
+    return res.json({ "message": "Successfully deleted" })
+    // return res.json({ route: "delete/spot-images/:imageId" })
 })
 
 module.exports = router;
