@@ -4,7 +4,7 @@ const { Op } = require('sequelize')
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { authCheck } = require('../../utils/auth');
-const { Spot, User, SpotImage, Review, Booking } = require('../../db/models');
+const { Spot, User, SpotImage, Review, Booking, ReviewImages } = require('../../db/models');
 
 const validateSpot = [
     check('address')
@@ -192,9 +192,18 @@ router.get('/:spotId/reviews', async (req, res, next) => {
         where: {
             id: spotId,
         },
-        include: {
-            model: Review
+        include: [{
+            model: User,
+            attributes: ['id', 'firstName', 'lastName']
+        }, {
+            model: Review,
+            include: {
+                model: ReviewImages,
+                attributes: ['id', 'url']
+            }
         }
+
+        ]
     })
 
     if (reviews === null) {
@@ -217,24 +226,21 @@ router.get('/:spotId/bookings', authCheck, async (req, res, next) => {
     const { user } = req;
     const { spotId } = req.params;
 
-    let spotsBookings
-    if (user) {
-        spotsBookings = await Booking.findAll({
-            where: {
-                spotId: spotId,
-                userId: user.id
-            }
-        })
-    } else {
+    let spotBookings
 
-        spotsBookings = await Booking.findAll({
-            where: {
-                spotId: spotId
-            }
-        })
-    }
 
-    if (spotsBookings.length === 0) {
+    spotBookings = await Booking.findAll({
+        where: {
+            spotId: spotId,
+        },
+        include: {
+            model: User,
+            attributes: ['id', 'firstName', 'lastName']
+        }
+    })
+
+
+    if (spotBookings.length === 0) {
         // create err 
         const err = new Error("Spot couldn't be found")
         // set error title
@@ -244,7 +250,9 @@ router.get('/:spotId/bookings', authCheck, async (req, res, next) => {
         return next(err);
     }
     // return res.json(booking)
-    return res.json(spotsBookings)
+
+
+    return res.json(spotBookings)
     // res.json({ route: "get/spots/:spotId/bookings" })
 })
 
@@ -461,7 +469,6 @@ router.post('/:spotId/bookings', authCheck, async (req, res, next) => {
         return next(err);
     }
 
-
     const conflicts = await Spot.findAll({
         include: {
             model: Booking,
@@ -569,11 +576,11 @@ router.post('/:spotId/bookings', authCheck, async (req, res, next) => {
         return next(err);
     }
 
-    // if (spot.ownerId === user.id) {
-    //     const err = new Error("Forbidden");
-    //     err.status = 403;
-    //     next(err);
-    // }
+    if (spot.ownerId === user.id) {
+        const err = new Error("Forbidden");
+        err.status = 403;
+        next(err);
+    }
 
     const booking = await Booking.create(bookingEntry);
     return res.json(booking)

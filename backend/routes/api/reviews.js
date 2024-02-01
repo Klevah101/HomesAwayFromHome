@@ -3,7 +3,7 @@ const router = require('express').Router();
 const { check } = require('express-validator');
 const { authCheck } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
-const { Review, ReviewImage } = require('../../db/models');
+const { Review, ReviewImage, Spot, SpotImage, User } = require('../../db/models');
 
 const validateReview = [
     check('review')
@@ -23,12 +23,44 @@ const validateReview = [
 // REQ AUTH - Get Reviews of Current User
 router.get('/current', authCheck, async (req, res, next) => {
     const { user } = req
-    const reviews = await Review.findAll({
+    let reviews = await Review.findAll({
         where: {
             userId: user.id
-        }
+        },
+        include: [
+            {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            },
+            {
+                model: Spot,
+                attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price'],
+                include: {
+                    model: SpotImage,
+                    where: {
+                        preview: true
+                    }
+                }
+            },
+            {
+                model: ReviewImage,
+                attributes: ['id', 'url']
+            }
+        ]
     })
-    return res.json(reviews)
+
+    reviews = JSON.stringify(reviews)
+    reviews = JSON.parse(reviews)
+
+    console.log(reviews.length)
+    // returnObj.Reviews = reviews
+
+    for (let i = 0; i < reviews.length; i++) {
+        reviews[i].Spot.previewImage = reviews[i].Spot.SpotImages[0].url;
+        delete reviews[i].Spot.SpotImages
+    }
+
+    return res.json({ reviews })
     // res.json({ route: "get/reviews/current" })
 })
 
@@ -107,6 +139,16 @@ router.put('/:reviewId', authCheck, validateReview, async (req, res, next) => {
         return next(err);
     }
 
+    if (gotReview.userId !== user.id) {
+        // create err 
+        const err = new Error("Review couldn't be found")
+        // set error title
+        // set status code
+        err.status = 403;
+        // next(err)
+        return next(err);
+    }
+
     const reviewEntry = {}
 
     if (review) reviewEntry["review"] = review
@@ -124,7 +166,17 @@ router.delete('/:reviewId', authCheck, async (req, res, next) => {
     const { reviewId } = req.params;
 
     const review = await Review.findByPk(reviewId)
-    await Review.destroy(review);
+    if (Review.id !== user.id) {
+        const err = new Error("Forbidden");
+        err.status = 403
+        return next(err);
+    }
+
+    await Review.destroy({
+        where: {
+            id: review.id
+        }
+    });
 
     return res.json("ded")
     // return res.json({ route: "delete/reviews/:reviewId" })

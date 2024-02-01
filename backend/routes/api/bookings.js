@@ -39,6 +39,12 @@ router.put('/:bookingId', authCheck, async (req, res, next) => {
         return next(err);
     }
 
+    if (booking.userId !== user.id) {
+        const err = new Error("Forbidden")
+        err.status = 403;
+        return next(err);
+    }
+
     const bookingEdit = {
         startDate: startDate,
         endDate: endDate
@@ -146,7 +152,7 @@ router.put('/:bookingId', authCheck, async (req, res, next) => {
 
 
 
-    console.log(conflicts, 'bookingId', bookingId)
+    // console.log(conflicts, 'bookingId', bookingId)
 
     const updatedBooking = await booking.update(bookingEdit)
 
@@ -165,7 +171,17 @@ router.delete('/:bookigId', authCheck, async (req, res, next) => {
         }
     })
 
-    const end = await Booking.destroy(booking);
+    if (booking === null) {
+        const err = new Error("Booking couldn't be found")
+        err.status = 404;
+        return next(err)
+    }
+
+    const end = await Booking.destroy({
+        where: {
+            id: bookingId
+        }
+    });
 
     return res.json(end)
     // return res.json({ route: "delete/bookings/:bookingId" })
