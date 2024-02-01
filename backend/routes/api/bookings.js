@@ -3,25 +3,30 @@ const router = require('express').Router();
 const { Op } = require('sequelize')
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { Booking, sequelize } = require('../../db/models');
+const { Booking, Spot } = require('../../db/models');
 const { authCheck } = require('../../utils/auth');
 
 //  REQ AUTH - Get All Current User's Bookings
 router.get('/current', authCheck, async (req, res, next) => {
     const { user } = req;
 
-    const bookings = await Booking.findAll({
+    let bookings = await Booking.findAll({
         where: {
             userId: user.id
-        }
+        },
+        include: { model: Spot }
     })
 
-    return res.json(bookings)
+    let Bookings = JSON.stringify(bookings)
+    Bookings = JSON.parse(Booking)
+
+    return res.json({ Bookings })
     // res.json({ route: "get/bookings/current" })
 })
 
 // REQ AUTH - Edit a Booking
 router.put('/:bookingId', authCheck, async (req, res, next) => {
+    const { user } = req;
     const { bookingId } = req.params;
     const { startDate, endDate } = req.body;
 
@@ -162,7 +167,8 @@ router.put('/:bookingId', authCheck, async (req, res, next) => {
 })
 
 // REQ AUTH - Delete a Booking
-router.delete('/:bookigId', authCheck, async (req, res, next) => {
+router.delete('/:bookingId', authCheck, async (req, res, next) => {
+    const { user } = req;
     const { bookingId } = req.params;
 
     const booking = await Booking.findOne({
@@ -177,13 +183,19 @@ router.delete('/:bookigId', authCheck, async (req, res, next) => {
         return next(err)
     }
 
-    const end = await Booking.destroy({
+    if (booking.userId !== user.id) {
+        const err = new Error("Forbidden")
+        err.status = 403;
+        return next(err)
+    }
+
+    await Booking.destroy({
         where: {
             id: bookingId
         }
     });
 
-    return res.json(end)
+    return res.json({ "message": "Successfully deleted" })
     // return res.json({ route: "delete/bookings/:bookingId" })
 })
 

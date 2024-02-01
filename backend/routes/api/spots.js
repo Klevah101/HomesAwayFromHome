@@ -4,7 +4,7 @@ const { Op } = require('sequelize')
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { authCheck } = require('../../utils/auth');
-const { Spot, User, SpotImage, Review, Booking, ReviewImages } = require('../../db/models');
+const { Spot, User, SpotImage, Review, Booking, ReviewImage } = require('../../db/models');
 
 const validateSpot = [
     check('address')
@@ -69,7 +69,11 @@ const validateReview = [
 // Get All Spots With Params
 router.get('/', async (req, res, next) => {
 
-    const { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+
+    if (!page) page = 1;
+    if (!size) size = 20;
+
 
     // const stuff = await User.findAll({
     //     include: [{
@@ -77,14 +81,83 @@ router.get('/', async (req, res, next) => {
     //     }],
     // })
 
+    const err = new Error("Bad Request");
+    err.errors = {};
+    if (page) {
+        if (page <= 0) err.errors.page = "Page must be greater than or equal to 1"
+    }
+
+    if (size) {
+        if (size <= 0) err.errors.size = "Size must be greater than or equal to 1"
+    }
+
+
+    if (maxLat) {
+        if (maxLat > 90 || maxLat < -90) err.errors.maxLat = "Maximum latitude is invalid"
+    }
+    if (minLat) {
+        if (minLat > 90 || minLat < -90) err.errors.minLat = "Minimum latitude is invalid"
+    }
+
+
+
+
+    if (maxLng) {
+        if (maxLng > 180 || maxLng < -180) err.errors.maxLng = "Maximum longitude is invalid"
+    }
+
+    if (minLng) {
+        if (minLng > 180 || minLng < -180) err.errors.minLng = "Minimum longitude is invalid"
+    }
+
+
+
+
+    if (minPrice) {
+        if (minPrice < 0) err.errors.minPrice = "Minimum Price is must be greater than or equal to 0"
+    }
+    if (maxPrice) {
+        if (maxPrice < 0) err.errors.maxPrice = "Maximum Price is must be greater than or equal to 0"
+    }
+
+
+    if (Object.keys(err.errors).length > 0) {
+        return next(err);
+    }
+
     const filter = {};
+
+    filter.limit = size;
+    filter.offset = size * (page - 1)
+
+    // if (page) filter["page"] = page
+    // if (size) filter.size = size
+
+
+    // if (maxLat) filter.maxLat = maxLat
+    // if (minLat) filter.minLat = minLat
+    // if (maxLng) filter.maxLng = maxLng
+    // if (minLng) filter.minLng = minLng
+    // if (minPrice) filter.page = minPrice
+    // if (maxPrice) filter.page = maxPrice
 
     // {[Op.and]:{lat:[Op.between]:[minLat,maxLat]}}
 
-
-
+    // console.log(filter)
 
     let spots = await Spot.findAll({
+        where: {
+            lat: {
+                [Op.between]: [minLat, maxLat]
+            },
+            lng: {
+                [Op.between]: [minLng, maxLng]
+            },
+            price: {
+                [Op.between]: [minPrice, maxPrice]
+            },
+        },
+        ...filter,
         include: [{
             model: SpotImage,
             where: {
@@ -132,7 +205,8 @@ router.get('/', async (req, res, next) => {
 
 
 
-    return res.json({ Spots: spots })
+
+    return res.json({ Spots: spots, page, size })
     // res.json({ route: "get/spots?" })
 })
 
@@ -192,18 +266,19 @@ router.get('/:spotId/reviews', async (req, res, next) => {
         where: {
             id: spotId,
         },
-        include: [{
-            model: User,
-            attributes: ['id', 'firstName', 'lastName']
-        }, {
+        include: {
             model: Review,
-            include: {
-                model: ReviewImages,
-                attributes: ['id', 'url']
-            }
+            include: [
+                {
+                    model: User,
+                    attributes: ['id', 'firstName', 'lastName']
+                },
+                {
+                    model: ReviewImage,
+                    attributes: ['id', 'url']
+                }]
         }
 
-        ]
     })
 
     if (reviews === null) {
@@ -251,8 +326,21 @@ router.get('/:spotId/bookings', authCheck, async (req, res, next) => {
     }
     // return res.json(booking)
 
+    if (spotBookings.userId === user.id) return res.json(spotBookings)
+
+    spotBookings = JSON.stringify(spotBookings)
+    spotBookings = JSON.parse(spotBookings)
+
+    for (let i = 0; i < spotBookings.length; i++) {
+        delete spotBookings[i].User
+        delete spotBookings[i].createdAt
+        delete spotBookings[i].updatedAt
+        delete spotBookings[i].userId
+        delete spotBookings[i].id
+    }
 
     return res.json(spotBookings)
+
     // res.json({ route: "get/spots/:spotId/bookings" })
 })
 
@@ -295,14 +383,16 @@ router.get('/:spotId', async (req, res, next) => {
     spot = JSON.parse(spot);
 
     let sumReviews = 0;
-    let avgStarRating = 0;
+    let avgStarRating;
 
+    console.log(spot.Reviews)
     for (let i = 0; i < spot.Reviews.length; i++) {
-        sumReviews += spot.Reviews.stars;
-        if (i === spot.Reviews.length - 1) avgStarRating = sumReviews / i;
+        sumReviews += spot.Reviews[i].stars;
+        // if (i === spot.Reviews.length - 1);
     }
-    console.log(sumReviews)
 
+    // console.log(sumReviews)
+    avgStarRating = sumReviews / spot.Reviews.length
     spot.numReviews = spot.Reviews.length;
     spot.avgStarRating = avgStarRating;
     delete spot.Reviews;
@@ -384,6 +474,7 @@ router.post('/:spotId/reviews', authCheck, validateReview, async (req, res, next
 
     const newReview = await Review.create(reviewEntry)
 
+    res.status(201);
     // console.log(newReview);
     return res.json(newReview)
     // return res.json({ route: "post/spots/:spotId/reviews" })
@@ -579,7 +670,7 @@ router.post('/:spotId/bookings', authCheck, async (req, res, next) => {
     if (spot.ownerId === user.id) {
         const err = new Error("Forbidden");
         err.status = 403;
-        next(err);
+        return next(err);
     }
 
     const booking = await Booking.create(bookingEntry);
@@ -643,6 +734,13 @@ router.delete('/:spotId', authCheck, async (req, res, next) => {
 
     const spot = await Spot.findByPk(spotId)
 
+    if (spot === null) {
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        return next(err);
+
+    }
+
     if (spot.ownerId !== user.id) {
         // create err 
         const err = new Error("Forbidden")
@@ -652,6 +750,7 @@ router.delete('/:spotId', authCheck, async (req, res, next) => {
         // next(err)
         return next(err);
     }
+
     await spot.destroy({ force: true });
     // console.log(spot)
     // await Spot.destroy({

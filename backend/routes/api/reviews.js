@@ -60,7 +60,8 @@ router.get('/current', authCheck, async (req, res, next) => {
         delete reviews[i].Spot.SpotImages
     }
 
-    return res.json({ reviews })
+    const Reviews = reviews;
+    return res.json({ Reviews })
     // res.json({ route: "get/reviews/current" })
 })
 
@@ -117,13 +118,20 @@ router.post('/:reviewId/images', authCheck, async (req, res, next) => {
 
     const newReviewImage = await ReviewImage.create(newReviewImageEntry)
 
+    let returnReviewImage = JSON.stringify(newReviewImage);
+    returnReviewImage = JSON.parse(returnReviewImage);
 
-    return res.json(newReviewImage)
+    delete returnReviewImage.createdAt;
+    delete returnReviewImage.updatedAt;
+    delete returnReviewImage.reviewId;
+
+    return res.json(returnReviewImage);
 })
 
 // REQ AUTH - Edit a Review
 router.put('/:reviewId', authCheck, validateReview, async (req, res, next) => {
 
+    const { user } = req;
     const { reviewId } = req.params;
     const { review, stars } = req.body;
 
@@ -141,7 +149,7 @@ router.put('/:reviewId', authCheck, validateReview, async (req, res, next) => {
 
     if (gotReview.userId !== user.id) {
         // create err 
-        const err = new Error("Review couldn't be found")
+        const err = new Error("Forbidden")
         // set error title
         // set status code
         err.status = 403;
@@ -163,12 +171,22 @@ router.put('/:reviewId', authCheck, validateReview, async (req, res, next) => {
 // REQ AUTH - Delete a Review
 router.delete('/:reviewId', authCheck, async (req, res, next) => {
 
+    const { user } = req;
     const { reviewId } = req.params;
 
     const review = await Review.findByPk(reviewId)
-    if (Review.id !== user.id) {
+
+    if (review === null) {
+        const err = new Error("Review couldn't be found");
+        err.status = 404;
+        return next(err);
+    }
+
+    console.log(review);
+
+    if (review.userId !== user.id) {
         const err = new Error("Forbidden");
-        err.status = 403
+        err.status = 403;
         return next(err);
     }
 
@@ -178,7 +196,7 @@ router.delete('/:reviewId', authCheck, async (req, res, next) => {
         }
     });
 
-    return res.json("ded")
+    return res.json({ "message": "Successfully deleted" })
     // return res.json({ route: "delete/reviews/:reviewId" })
 })
 

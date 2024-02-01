@@ -13,6 +13,12 @@ router.delete('/:imageId', authCheck, async (req, res, next) => {
     // console.log(imageId)
 
     const spotImage = await SpotImage.findByPk(imageId)
+
+    if (spotImage === null) {
+        const err = new Error("Spot Image couldn't be found")
+        err.status = 404;
+        return next(err)
+    }
     // console.log(spotImage)
     const spot = await Spot.findByPk(spotImage.spotId)
 
