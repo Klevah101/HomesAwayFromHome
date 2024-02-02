@@ -30,10 +30,10 @@ module.exports = {
         allowNull: false
       },
       firstName: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(50)
       },
       lastName: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(50)
       },
       createdAt: {
         allowNull: false,
