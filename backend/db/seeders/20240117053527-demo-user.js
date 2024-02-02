@@ -41,6 +41,13 @@ const dataset2 = [
     email: 'mrbrown@appacademy.io',
     username: 'MrBrown',
     hashedPassword: bcrypt.hashSync('wordpass')
+  },
+  {
+    firstName: 'Spongebob',
+    lastName: 'Squarepants',
+    email: 'krustycook@bikinibottom.io',
+    username: 'KrustyCook',
+    hashedPassword: bcrypt.hashSync('crabbypatty')
   }
 ];
 
@@ -80,7 +87,7 @@ module.exports = {
       email: {
         [Op.in]: emailNames
       }
-    })
+    }, options)
   }
 
 };

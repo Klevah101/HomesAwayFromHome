@@ -23,8 +23,6 @@ const validateLogin = [
 
 router.post('/', validateLogin, async (req, res, next) => {
     const { credential, password } = req.body;
-
-    console.log(credential, password)
     const user = await User.unscoped().findOne({
         where: {
             [Op.or]: {
@@ -34,22 +32,9 @@ router.post('/', validateLogin, async (req, res, next) => {
         }
     });
 
-    // console.log(user)
-    // const newObj = { User };
-    // newObj.User = user.dataValues;
-    // console.log(newObj);
-
-    // let jsonUser = JSON.stringify(user);
-    // jsonUser = JSON.parse(jsonUser);
-    // console.log(jsonUser)
-
-    // console.log(typeof user)
-
     if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
-        const err = new Error('Login failed');
+        const err = new Error('Invalid credentials');
         err.status = 401;
-        err.title = 'Login failed';
-        err.errors = { credential: 'Invalid credentials' };
         return next(err);
     }
 

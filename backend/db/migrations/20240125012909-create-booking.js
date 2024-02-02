@@ -21,15 +21,15 @@ module.exports = {
         references: {
           model: 'Users'
         },
-        onDelete:"CASCADE"
+        onDelete: "CASCADE"
       },
       spotId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Spots',
         },
-        onDelete:"CASCADE"
-       
+        onDelete: "CASCADE"
+
       },
       startDate: {
         type: Sequelize.DATE
@@ -48,6 +48,7 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Bookings');
+    options.tableName = 'Bookings'
+    return await queryInterface.dropTable(options);
   }
 };

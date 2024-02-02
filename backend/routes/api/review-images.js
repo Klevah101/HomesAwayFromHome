@@ -24,8 +24,6 @@ router.delete('/:imageId', authCheck, async (req, res, next) => {
         }
     })
 
-    // console.log('//////////////////////', imageId, '///////////////////////')
-
     if (review.userId !== user.id) {
         let err = new Error("Forbidden");
         err.status = 403;
@@ -40,7 +38,6 @@ router.delete('/:imageId', authCheck, async (req, res, next) => {
 
 
     return res.json({ "message": "Successfully deleted" })
-    // return res.json({ route: "delete/review-images/:imageId" })
 })
 
 module.exports = router;

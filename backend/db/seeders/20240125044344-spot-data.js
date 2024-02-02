@@ -44,6 +44,30 @@ module.exports = {
         description: 'No holes in the roof. Front door works.',
         price: 400.99
       },
+      {
+        ownerId: 2,
+        address: '321 Fake St',
+        city: 'Boston',
+        state: 'Massachusetts',
+        country: 'United States',
+        lat: -86.2,
+        lng: 80.7,
+        name: 'The other other Shack',
+        description: 'No roof.',
+        price: 400.99
+      },
+      {
+        ownerId: 3,
+        address: '321 Fake St',
+        city: 'Boston',
+        state: 'Massachusetts',
+        country: 'United States',
+        lat: 35,
+        lng: 35,
+        name: 'A pineapple',
+        description: 'A pineapple under the sea.',
+        price: 75
+      },
     ];
 
     await Spot.bulkCreate(dataset1, {
@@ -64,5 +88,12 @@ module.exports = {
     // return queryInterface.bulkDelete(options, {
     //   username: { [Op.in]: ['Demo-lition', 'FakeUser1', 'FakeUser2'] }
     // }, {});
+    await queryInterface.bulkDelete('Spots', {
+      where: {
+        id: {
+          [Op.lt]: 5
+        }
+      }
+    })
   }
 };

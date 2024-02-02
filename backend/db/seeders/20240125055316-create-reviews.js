@@ -22,16 +22,28 @@ module.exports = {
     const dataset1 = [
       {
         userId: 1,
-        spotId: 1,
+        spotId: 2,
         review: "Not sure if I would recommend this one. Lots more holes in the roof then stated in the advert. Will be asking for a refund.",
         stars: 1
       },
       {
-        userId: 2,
-        spotId: 1,
+        userId: 1,
+        spotId: 3,
         review: "Wonderful place",
         stars: 5
-      }
+      },
+      {
+        userId: 2,
+        spotId: 3,
+        review: "A bit damp",
+        stars: 4
+      },
+      {
+        userId: 3,
+        spotId: 1,
+        review: "Great place to hideout for a while",
+        stars: 4
+      },
     ];
 
     Review.bulkCreate(dataset1, {
@@ -46,5 +58,12 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    await queryInterface.bulkDelete("Reviews", {
+      where: {
+        id: {
+          [Op.lt]: 4
+        }
+      }
+    }, options)
   }
 };

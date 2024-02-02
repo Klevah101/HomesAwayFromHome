@@ -49,15 +49,14 @@ app.use((_req, _res, next) => {
 });
 
 app.use((err, _req, _res, next) => {
-  // check if error is a Sequelize error:
   if (err instanceof ValidationError) {
     let errors = {};
     for (let error of err.errors) {
       errors[error.path] = error.message;
-      console.log(error.path)
+      // console.log(error.path)
     }
 
-    console.log(errors)
+    // console.log(errors)
     err.title = 'Validation error';
     err.errors = errors;
   }
@@ -66,7 +65,6 @@ app.use((err, _req, _res, next) => {
 
 app.use((err, _req, res, _next) => {
   res.status(err.status || 500);
-  // console.error(err);
   let message
 
   switch (err.message) {
@@ -82,9 +80,6 @@ app.use((err, _req, res, _next) => {
   }
 
   res.json({
-    // title: err.title || 'Server Error',
-    // if(err.message === 'User with that email already exists')
-    // message: err.message,
     message: message,
     errors: err.errors,
     // stack: isProduction ? null : err.stack

@@ -21,10 +21,28 @@ module.exports = {
     const dataset1 = [
       {
         userId: 1,
+        spotId: 2,
+        startDate: '2021-11-20',
+        endDate: '2021-11-21'
+      },
+      {
+        userId: 1,
+        spotId: 2,
+        startDate: '2022-11-20',
+        endDate: '2022-11-21'
+      },
+      {
+        userId: 2,
+        spotId: 3,
+        startDate: '2021-11-20',
+        endDate: '2021-11-21'
+      },
+      {
+        userId: 3,
         spotId: 1,
         startDate: '2021-11-20',
         endDate: '2021-11-21'
-      }
+      },
     ];
 
     Booking.bulkCreate(dataset1, {
@@ -40,6 +58,14 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    
+
+    await queryInterface.bulkDelete('Bookings', {
+      where: {
+        id: {
+          [Op.lt]: 4
+        }
+      }
+    }, options)
+
   }
 };

@@ -19,8 +19,6 @@ const validateReview = [
     handleValidationErrors
 ];
 
-
-// REQ AUTH - Get Reviews of Current User
 router.get('/current', authCheck, async (req, res, next) => {
     const { user } = req
     let reviews = await Review.findAll({
@@ -52,9 +50,6 @@ router.get('/current', authCheck, async (req, res, next) => {
     reviews = JSON.stringify(reviews)
     reviews = JSON.parse(reviews)
 
-    console.log(reviews.length)
-    // returnObj.Reviews = reviews
-
     for (let i = 0; i < reviews.length; i++) {
         reviews[i].Spot.previewImage = reviews[i].Spot.SpotImages[0].url;
         delete reviews[i].Spot.SpotImages
@@ -62,39 +57,28 @@ router.get('/current', authCheck, async (req, res, next) => {
 
     const Reviews = reviews;
     return res.json({ Reviews })
-    // res.json({ route: "get/reviews/current" })
 })
 
 // REQ AUTH - Create an Image for a Review
 router.post('/:reviewId/images', authCheck, async (req, res, next) => {
 
-    // reviewId is null in postman.  ask for help.
-
     const { user } = req;
     const { reviewId } = req.params;
     const { url } = req.body;
 
-
-
     const review = await Review.findByPk(reviewId)
 
     if (review === null) {
-        // create err 
         const err = new Error("Review couldn't be found")
-        // set error title
-        // set status code
         err.status = 404;
-        // next(err)
         return next(err);
     }
-
 
     if (review.userId !== user.id) {
         const err = new Error("Forbidden");
         err.status = 403;
         return next(err);
     }
-
 
     const numReviewImages = await ReviewImage.count({
         where: {
@@ -104,10 +88,7 @@ router.post('/:reviewId/images', authCheck, async (req, res, next) => {
 
     if (numReviewImages >= 10) {
         const err = new Error("Maximum number of images for this resource was reached")
-        // set error title
-        // set status code
         err.status = 403;
-        // next(err)
         return next(err);
     }
 
@@ -138,22 +119,14 @@ router.put('/:reviewId', authCheck, validateReview, async (req, res, next) => {
     const gotReview = await Review.findByPk(reviewId);
 
     if (gotReview === null) {
-        // create err 
         const err = new Error("Review couldn't be found")
-        // set error title
-        // set status code
         err.status = 404;
-        // next(err)
         return next(err);
     }
 
     if (gotReview.userId !== user.id) {
-        // create err 
         const err = new Error("Forbidden")
-        // set error title
-        // set status code
         err.status = 403;
-        // next(err)
         return next(err);
     }
 
@@ -165,7 +138,6 @@ router.put('/:reviewId', authCheck, validateReview, async (req, res, next) => {
     await gotReview.update(reviewEntry);
 
     return res.json(gotReview)
-    // res.json({ route: "put/reviews/:reviewId" })
 })
 
 // REQ AUTH - Delete a Review
@@ -182,7 +154,7 @@ router.delete('/:reviewId', authCheck, async (req, res, next) => {
         return next(err);
     }
 
-    console.log(review);
+    
 
     if (review.userId !== user.id) {
         const err = new Error("Forbidden");
@@ -197,7 +169,6 @@ router.delete('/:reviewId', authCheck, async (req, res, next) => {
     });
 
     return res.json({ "message": "Successfully deleted" })
-    // return res.json({ route: "delete/reviews/:reviewId" })
 })
 
 module.exports = router;
