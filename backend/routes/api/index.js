@@ -21,6 +21,7 @@ router.use('/bookings', bookingsRouter);
 router.use('/spot-images', spotImageRouter);
 router.use('/review-images', reviewImageRouter);
 
+// can remove following code now
 router.post('/test', (req, res) => {
   return res.json({ requestBody: req.body });
 });
