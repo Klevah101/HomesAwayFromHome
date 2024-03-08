@@ -4,6 +4,7 @@ import ProfileButton from './ProfileButton';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
 import SignupFormModal from '../SignupFormPage/SignupFormModal';
+import logo from '../../resources/logo.png'
 import './Navigation.css';
 
 function Navigation({ isLoaded }) {
@@ -31,12 +32,15 @@ function Navigation({ isLoaded }) {
     );
 
     return (
-        <ul>
-            <li>
-                <NavLink to="/">Home</NavLink>
-            </li>
-            {isLoaded && sessionLinks}
-        </ul>
+        <div className="wrapper">
+            <img src={logo} />
+            <ul>
+                <li>
+                    <NavLink to="/">Home</NavLink>
+                </li>
+                {isLoaded && sessionLinks}
+            </ul>
+        </div>
     );
 }
 
