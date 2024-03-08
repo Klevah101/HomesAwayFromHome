@@ -7,7 +7,7 @@ function Reviews({ props }) {
     const reviewSlice = useSelector(state => state.reviews)
     useEffect(() => {
         dispatch(getReviews(parseInt(props)))
-    }, [dispatch])
+    }, [dispatch, props])
 
     const reviewKeys = Object.keys(reviewSlice)
     const reviews = reviewKeys.map(key => {

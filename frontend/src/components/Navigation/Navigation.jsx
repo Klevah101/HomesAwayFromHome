@@ -33,7 +33,7 @@ function Navigation({ isLoaded }) {
 
     return (
         <div className="wrapper">
-            <img src={logo} />
+            <img src={logo} className="logo" />
             <ul>
                 <li>
                     <NavLink to="/">Home</NavLink>

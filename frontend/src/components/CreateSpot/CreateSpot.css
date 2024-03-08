@@ -1,9 +1,69 @@
+* {
+    background-color: #f1f1f4;
+}
+
+input {
+    width: 50ch;
+}
+
+h2 {
+    font-size: 3rem;
+}
+
+h3 {
+    font-size: 2rem;
+}
+
+#city {
+    width: 30ch;
+    margin-right: 16px;
+}
+
+#state {
+    width: 30ch;
+}
+
+#longitude {
+    width: 30ch;
+}
+
+#latitude {
+    width: 30ch;
+    margin-right: 16px;
+}
+
+.titleSection {
+    display: flex;
+    flex-direction: column;
+}
+
+.inline {
+    display: inline;
+}
+
 .spotForm {
     display: flex;
     flex-direction: column;
 }
 
+.spotFormWrapper {
+    display: flex;
+    max-width: 1000px;
+    margin-inline: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.two-item-input {
+    display: flex
+}
+
 label {
     display: flex;
-    flex-direction: column;
+    max-width: 600px;
+}
+
+.error {
+    color: red;
+    margin-left: auto;
 }
