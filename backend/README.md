@@ -5,7 +5,7 @@
 ## Database Schema Design
 
 
-![database-schema](https://github.com/Klevah101/HomesAwayFromHome/raw/dev/images/schema.png)
+![database-schema](https://github.com/Klevah101/HomesAwayFromHome/raw/main/images/schema.png)
 
 
 ## API Documentation
