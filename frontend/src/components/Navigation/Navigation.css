@@ -1,9 +1,25 @@
-.wrapper {
-    display: flex;
-    justify-content: space-between;
+.logo {
+    width: 100px;
 }
 
-/* .logo {
-    width: 100px;
-    height: auto;
+.wrapper {
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+}
+
+
+ul {
+    display: flex;
+    list-style: none;
+    margin-left: auto;
+}
+
+.link-text {
+    font-size: 1.5rem;
+}
+
+/* .profile-dropdown {
+    display: flex;
+    flex-direction: column;
 } */

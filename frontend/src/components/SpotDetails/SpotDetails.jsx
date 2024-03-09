@@ -4,8 +4,9 @@ import { getSpotDetails } from "../../store/spot-details";
 import { useParams } from "react-router";
 import Reserve from "../Reserve/Reserve";
 import Reviews from "../Reviews/Reviews";
+import './SpotDetails.css'
 
-function SpotDetail() {
+function SpotDetails() {
     const { id } = useParams();
     const dispatch = useDispatch();
     let details = useSelector(state => state.details);
@@ -40,18 +41,40 @@ function SpotDetail() {
     // preview = SpotImages.filter(image => image.preview)
 
 
-    return (<>
-        <h2>Spot Detail</h2>
-        <p>{details.city}</p>
-        <p>{details.state}</p>
-        <p>{details.country}</p>
+    return (<div className="spot-details-wrapper">
+        <h2>{details.name}</h2>
+        <div className="spot-details-location">
+            <p>{details.city}, {details.state}, {details.country}</p>
+            <p></p>
+            <p></p>
+        </div>
         {/* <p>{`${image ? image.url : null}`}</p> */}
-        <img src={`${image ? image.url : null}`} />
-        <p>{`Hosted by ${ownerName}`}</p>
-        <Reserve props={reserveProps} />
+        <div className="spot-images">
+            <div className="spot-details-preview-wrapper">
+                <img className="spot-details-preview" src={`${image ? image.url : null}`} />
+            </div>
+            <div className="spot-details-images">
+                <img className="spot-details-image" src={`${image ? image.url : null}`} />
+                <img className="spot-details-image" src={`${image ? image.url : null}`} />
+                <img className="spot-details-image" src={`${image ? image.url : null}`} />
+                <img className="spot-details-image" src={`${image ? image.url : null}`} />
+            </div>
+        </div>
+        <div className="spot-details-about">
+            <div>
+
+                <p>{`Hosted by ${ownerName}`}</p>
+            </div>
+            <div>
+
+                <div><Reserve props={reserveProps} />
+                </div>
+            </div>
+        </div>
         <Reviews props={id} />
+
         {/* <p>{details["SpotImages"]["preview"]}</p> */}
-    </>)
+    </div>)
 }
 
-export default SpotDetail
+export default SpotDetails

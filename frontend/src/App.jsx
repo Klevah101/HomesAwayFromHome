@@ -4,8 +4,9 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navigation from './components/Navigation/Navigation';
 import * as sessionActions from './store/session';
 import LandingPage from './components/LandingPage/LandingPage';
-import SpotDetail from './components/SpotDetail/SpotDetail';
+import SpotDetails from './components/SpotDetails/SpotDetails';
 import CreateSpot from './components/CreateSpot/CreateSpot';
+import UpdateSpot from './components/UpdateSpot/UpdateSpot';
 
 
 function Layout() {
@@ -39,12 +40,17 @@ const router = createBrowserRouter([
       {
         path: 'spots/:id',
         // element: <h1>Welcome!</h1>
-        element: <SpotDetail />
+        element: <SpotDetails />
       },
       {
         path: 'spots/new',
         // element: <h1>Welcome!</h1>
         element: <CreateSpot />
+      },
+      {
+        path: 'spots/:id/edit',
+        // element: <h1>Welcome!</h1>
+        element: <UpdateSpot />
       },
       // {
       //   path: "signup",

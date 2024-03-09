@@ -39,7 +39,7 @@ function ProfileButton({ user }) {
     return (
         <>
             <button onClick={toggleMenu}>
-                <FaUserCircle />
+                <FaUserCircle className="profile-icon" />
             </button>
             <ul className={ulClassName} ref={ulRef}>
                 <li>{user.username}</li>

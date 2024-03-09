@@ -1,0 +1,30 @@
+* {
+    margin: 0;
+}
+
+.reserve-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-style: solid;
+    padding: 16px 16px;
+    border-radius: 16px;
+    width: 300px;
+    margin-top: 16px;
+}
+
+.reserve-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+#reserve-button {
+    width: 200px;
+    height: 50px;
+    margin: 0 auto;
+    background-color: red;
+    border-radius: 12px;
+}

@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 function Reviews({ props }) {
     const dispatch = useDispatch();
+    const signedIn = useSelector(state => state.session.user)
     const reviewSlice = useSelector(state => state.reviews)
     useEffect(() => {
         dispatch(getReviews(parseInt(props)))
@@ -17,7 +18,7 @@ function Reviews({ props }) {
     // console.log('review ID', props)
     return (<>
         <h2>Reviews</h2>
-        <button>Post a review</button>
+        {signedIn && <button>Post a review</button>}
         {/* <p>{props}</p> */}
         {reviews.map(element => {
             return (

@@ -1,0 +1,46 @@
+.spot-details-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.spot-details-location {
+    display: flex;
+    flex-direction: row;
+}
+
+.spot-images {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+.spot-details-preview {
+    width: 90%;
+}
+
+
+.spot-details-images {
+    display: flex;
+    flex-direction: row;
+
+    flex-wrap: wrap;
+    width: 49%;
+}
+
+.spot-details-image {
+    width: 40%;
+    min-width: 200px;
+
+}
+
+.spot-details-preview-wrapper {
+    display: inline;
+    width: 50%;
+}
+
+.spot-details-about {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

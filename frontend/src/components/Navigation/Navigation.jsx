@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
@@ -7,11 +7,17 @@ import SignupFormModal from '../SignupFormPage/SignupFormModal';
 import logo from '../../resources/logo.png'
 import './Navigation.css';
 
+
 function Navigation({ isLoaded }) {
+    const navigate = useNavigate();
+    const handleLogoClick = (e) => {
+        e.stopPropagation();
+        navigate('/');
+    }
     const sessionUser = useSelector((state) => state.session.user);
 
     const sessionLinks = sessionUser ? (
-        <li>
+        <li className="profileMenu">
             <ProfileButton user={sessionUser} />
         </li>
     ) : (
@@ -33,11 +39,12 @@ function Navigation({ isLoaded }) {
 
     return (
         <div className="wrapper">
-            <img src={logo} className="logo" />
+            <img src={logo} className="logo" onClick={(e) => handleLogoClick(e)} />
             <ul>
-                <li>
-                    <NavLink to="/">Home</NavLink>
-                </li>
+                {sessionUser ?
+                    <li className="link-text">
+                        <NavLink to="/spots/new">Create a New Spot</NavLink>
+                    </li> : null}
                 {isLoaded && sessionLinks}
             </ul>
         </div>

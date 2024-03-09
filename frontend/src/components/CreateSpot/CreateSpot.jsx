@@ -4,6 +4,7 @@ import TextInput from "./TextInput";
 import TextAreaInput from "./TextAreaInput";
 import { checkErrors } from "../../utils/CreateSpotError";
 function CreateSpot() {
+
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
@@ -36,8 +37,7 @@ function CreateSpot() {
         image3,
         image4
     }
-
-    // console.log(description);
+    console.table(inputs) // see all the form data at once in a table format
 
     return (
         <div className="spotFormWrapper">

@@ -1,3 +1,15 @@
+.profile-dropdown {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 0px;
+}
+
 .hidden {
     display: none;
+}
+
+.profile-icon {
+    width: 24px;
+    height: 24px;
 }
