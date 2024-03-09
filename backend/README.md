@@ -5,6 +5,7 @@
 ## Database Schema Design
 
 [database-schema](https://github.com/Klevah101/HomesAwayFromHome/blob/dev/images/schema.PNG)
+![database-schema](https://github.com/Klevah101/HomesAwayFromHome/blob/dev/images/schema.PNG)
 
 
 
