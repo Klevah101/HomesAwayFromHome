@@ -1,0 +1,39 @@
+.LandingTile-wrapper {
+    /* width: auto; */
+    margin: 16px 16px;
+}
+
+.lt-image-wrapper {
+    width: 400px;
+    height: 300px;
+    overflow: hidden;
+    align-content: center;
+}
+
+.lt-image-wrapper p {
+    border: black;
+    align-self: center;
+}
+
+.lt-image {
+    position: relative;
+    left: -30px;
+    min-width: 300px;
+    min-height: auto;
+    max-width: 500px;
+}
+
+.lt-tooltips {
+    width: fit-content;
+    position: relative;
+    top: 30px;
+    left: 50px;
+    z-index: 1;
+    background-color: hsla(0, 0%, 100%, 0.7);
+}
+
+.lt-loc-rat {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

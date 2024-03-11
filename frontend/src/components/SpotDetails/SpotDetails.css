@@ -16,27 +16,33 @@
 }
 
 .spot-details-preview {
-    width: 90%;
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 8px;
 }
 
 
 .spot-details-images {
     display: flex;
     flex-direction: row;
-
     flex-wrap: wrap;
     width: 49%;
 }
 
 .spot-details-image {
-    width: 40%;
+    width: 172px;
+    height: 175px;
     min-width: 200px;
-
+    margin: 8px;
 }
 
 .spot-details-preview-wrapper {
     display: inline;
+    overflow: hidden;
     width: 50%;
+    margin-right: 24px;
 }
 
 .spot-details-about {

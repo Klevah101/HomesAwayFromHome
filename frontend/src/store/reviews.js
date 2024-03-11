@@ -26,8 +26,7 @@ const initialState = {};
 const reviewsReducer = (state = initialState, action) => {
     switch (action.type) {
         case STORE_REVIEWS:
-            return action.reviews;
-
+            return { ...action.reviews };
         // case SET_DETAILS:
         //     return { ...action.spotDetails };
         default:

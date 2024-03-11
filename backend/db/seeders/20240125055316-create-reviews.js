@@ -23,8 +23,8 @@ module.exports = {
       {
         userId: 1,
         spotId: 2,
-        review: "Not sure if I would recommend this one. Lots more holes in the roof then stated in the advert. Will be asking for a refund.",
-        stars: 1
+        review: "Got lost on the way to the bathroom, had to ask the butler for directions. This place is way bigger than advertised!",
+        stars: 4
       },
       {
         userId: 1,

@@ -1,0 +1,14 @@
+.manage-spot-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 24px 0;
+    padding: 0 24px;
+    /* justify-content: center; */
+    /* align-items: center; */
+}
+
+.inner-wrapper {
+    display: flex;
+    display: flex;
+    flex-wrap: wrap;
+}

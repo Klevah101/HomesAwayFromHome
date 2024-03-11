@@ -7,6 +7,7 @@ import { checkErrors } from "../../utils/CreateSpotError";
 import { useDispatch } from "react-redux";
 import { getSpotDetails } from "../../store/spot-details";
 import { useParams } from "react-router";
+import { useNavigate } from "react-router-dom";
 function UpdateSpot() {
 
     const [country, setCountry] = useState('');
@@ -41,12 +42,12 @@ function UpdateSpot() {
         image3,
         image4
     }
+
+    const navigate = useNavigate();
     // console.table(inputs) // see all the form data at once in a table format
     const dispatch = useDispatch();
     const { id } = useParams();
     // let details = useSelector(state => state.details);
-
-
     useEffect(() => {
         dispatch(getSpotDetails(id)).then((data) => {
             setCountry(data.country)
@@ -58,7 +59,15 @@ function UpdateSpot() {
             setTitle(data.name)
             setPrice(data.price)
             setDescription(data.description)
-            setPreviewImage(data.SpotImages[0].url)
+            data.SpotImages.forEach(el => {
+                if (el.preview === true) {
+                    console.log("preview")
+                    setPreviewImage(el.url)
+                }
+                else console.log("regular image")
+            })
+
+            // setPreviewImage(data.SpotImages[0].url)
             // setCountry(details.country)
             // setCountry(details.country)
             // setCountry(details.country)
@@ -68,6 +77,9 @@ function UpdateSpot() {
 
     }, [dispatch, id])
     // console.log('updateSpot', details.city);
+    const handleSubmit = () => {
+        navigate(`/spots/${id}`)
+    }
     return (
         <div className="spotFormWrapper">
 
@@ -133,7 +145,7 @@ function UpdateSpot() {
                     <TextInput title="Image URL" formId="image3" errorMessage={errors.image3} inputType="url" defaultValue={image3} setValue={setImage3} />
                     <TextInput title="Image URL" formId="image4" errorMessage={errors.image4} inputType="url" defaultValue={image4} setValue={setImage4} />
                 </div>
-                <button>Submit</button>
+                <button onClick={handleSubmit}>Update your Spot</button>
             </form>
         </div>
     )

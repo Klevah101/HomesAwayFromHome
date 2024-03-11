@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { FaUserCircle } from 'react-icons/fa';
 import * as sessionActions from '../../store/session';
+import { NavLink, useNavigate } from 'react-router-dom';
 import './ProfileButton.css'
 
 function ProfileButton({ user }) {
@@ -9,6 +10,7 @@ function ProfileButton({ user }) {
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
 
+    const navigate = useNavigate();
     const toggleMenu = (e) => {
         e.stopPropagation(); // Keep click from bubbling up to document and triggering closeMenu
         // if (!showMenu) setShowMenu(true);
@@ -29,9 +31,10 @@ function ProfileButton({ user }) {
         return () => document.removeEventListener('click', closeMenu);
     }, [showMenu]);
 
-    const logout = (e) => {
+    const logout = async (e) => {
         e.preventDefault();
-        dispatch(sessionActions.logout());
+        await dispatch(sessionActions.logout());
+        navigate('/');
     };
 
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
@@ -42,9 +45,9 @@ function ProfileButton({ user }) {
                 <FaUserCircle className="profile-icon" />
             </button>
             <ul className={ulClassName} ref={ulRef}>
-                <li>{user.username}</li>
-                <li>{user.firstName} {user.lastName}</li>
+                <li>Hello, {user.firstName}</li>
                 <li>{user.email}</li>
+                <li><NavLink to='/spots/current'>Manage Spots</NavLink></li>
                 <li>
                     <button onClick={logout}>Log Out</button>
                 </li>

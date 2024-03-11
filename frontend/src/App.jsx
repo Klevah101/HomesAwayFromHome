@@ -7,6 +7,7 @@ import LandingPage from './components/LandingPage/LandingPage';
 import SpotDetails from './components/SpotDetails/SpotDetails';
 import CreateSpot from './components/CreateSpot/CreateSpot';
 import UpdateSpot from './components/UpdateSpot/UpdateSpot';
+import ManageSpotsPage from './components/ManageSpotsPage/ManageSpotsPage';
 
 
 function Layout() {
@@ -51,6 +52,11 @@ const router = createBrowserRouter([
         path: 'spots/:id/edit',
         // element: <h1>Welcome!</h1>
         element: <UpdateSpot />
+      },
+      {
+        path: 'spots/current',
+        // element: <h1>Welcome!</h1>
+        element: <ManageSpotsPage />
       },
       // {
       //   path: "signup",

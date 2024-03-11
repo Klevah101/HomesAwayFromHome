@@ -11,14 +11,14 @@ function CreateSpot() {
     const [state, setState] = useState('');
     const [latitude, setLatitude] = useState('');
     const [longitude, setLongitude] = useState('');
-    const [description, setDescription] = useState('');
-    const [title, setTitle] = useState('');
-    const [price, setPrice] = useState('');
-    const [previewImage, setPreviewImage] = useState('');
-    const [image1, setImage1] = useState('');
-    const [image2, setImage2] = useState('');
-    const [image3, setImage3] = useState('');
-    const [image4, setImage4] = useState('');
+    const [description, setDescription] = useState('Please write at least 30 characters');
+    const [title, setTitle] = useState('Name your spot');
+    const [price, setPrice] = useState('Price per night (USD)');
+    const [previewImage, setPreviewImage] = useState('Preview Image URL');
+    const [image1, setImage1] = useState('Image URL');
+    const [image2, setImage2] = useState('Image URL');
+    const [image3, setImage3] = useState('Image URL');
+    const [image4, setImage4] = useState('Image URL');
     const [errors, setErrors] = useState({})
 
     const inputs = {
@@ -51,7 +51,7 @@ function CreateSpot() {
                     <h3>Where&apos;s your place located?</h3>
                     <p>Guest will only get your exact address once they booked a reservation.</p>
                     <TextInput title="Country" formId="country" errorMessage={errors.country} inputType="text" defaultValue={country} setValue={setCountry} />
-                    <TextInput title="Address" formId="address" errorMessage={errors.address} inputType="text" defaultValue={address} setValue={setAddress} />
+                    <TextInput title="Street Address" formId="address" errorMessage={errors.address} inputType="text" defaultValue={address} setValue={setAddress} />
                     <div className="two-item-input">
                         <div>
                             <TextInput title="City" formId="city" errorMessage={errors.city} inputType="text" defaultValue={city} setValue={setCity} />
@@ -74,7 +74,7 @@ function CreateSpot() {
                     <h3>Describe your place to guests  </h3>
                     <p>Mention the best features of your space, any special amentities like
                         fast wifi or parking, and what you love about the neighborhood.</p>
-                    <TextAreaInput title="Description" formId="description" errorMessage={errors.description} inputType="textArea" defaultValue={description} setValue={setDescription} />
+                    <TextAreaInput title="Description" formId="description" errorMessage={errors.description} defaultValue={description} setValue={setDescription} />
                     <hr />
                 </div>
                 <div>
@@ -104,7 +104,7 @@ function CreateSpot() {
                     <TextInput title="Image URL" formId="image3" errorMessage={errors.image3} inputType="url" defaultValue={image3} setValue={setImage3} />
                     <TextInput title="Image URL" formId="image4" errorMessage={errors.image4} inputType="url" defaultValue={image4} setValue={setImage4} />
                 </div>
-                <button>Submit</button>
+                <button>Create a Spot</button>
             </form>
         </div>
     )
