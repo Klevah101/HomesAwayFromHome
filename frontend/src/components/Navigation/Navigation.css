@@ -6,6 +6,7 @@
     display: flex;
     /* justify-content: space-between; */
     align-items: center;
+    padding-inline: 20pt;
 }
 
 
@@ -17,6 +18,16 @@ ul {
 
 .link-text {
     font-size: 1.5rem;
+    margin-right: 24pt;
+
+}
+
+.menu-link {
+    text-decoration: none;
+}
+
+.menu-link:visited {
+    color: green;
 }
 
 /* .profile-dropdown {

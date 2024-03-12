@@ -43,7 +43,7 @@ function Navigation({ isLoaded }) {
             <ul>
                 {sessionUser ?
                     <li className="link-text">
-                        <NavLink to="/spots/new">Create a New Spot</NavLink>
+                        <NavLink to="/spots/new" className="menu-link">Create a New Spot</NavLink>
                     </li> : null}
                 {isLoaded && sessionLinks}
             </ul>

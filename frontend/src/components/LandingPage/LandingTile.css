@@ -4,6 +4,8 @@
 }
 
 .lt-image-wrapper {
+    display: grid;
+    /* place-items: center; */
     width: 400px;
     height: 300px;
     overflow: hidden;
@@ -15,18 +17,29 @@
     align-self: center;
 }
 
+
 .lt-image {
+    /* display: block; */
+    /* margin: 0 auto; */
+    /* position: relative;
+    left: -30px;
+    min-width: 300px; */
+    min-height: auto;
+    max-width: 500px;
+}
+
+/* .lt-image {
     position: relative;
     left: -30px;
     min-width: 300px;
     min-height: auto;
     max-width: 500px;
-}
+} */
 
 .lt-tooltips {
     width: fit-content;
     position: relative;
-    top: 30px;
+    top: 50px;
     left: 50px;
     z-index: 1;
     background-color: hsla(0, 0%, 100%, 0.7);
