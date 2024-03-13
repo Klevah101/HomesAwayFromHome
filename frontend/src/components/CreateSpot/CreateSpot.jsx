@@ -3,8 +3,12 @@ import './CreateSpot.css'
 import TextInput from "./TextInput";
 import TextAreaInput from "./TextAreaInput";
 import { checkErrors } from "../../utils/CreateSpotError";
+import { useDispatch, } from "react-redux"
+import { createSpot } from "../../store/spots";
 function CreateSpot() {
 
+    const dispatch = useDispatch();
+    
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
@@ -37,14 +41,42 @@ function CreateSpot() {
         image3,
         image4
     }
-    console.table(inputs) // see all the form data at once in a table format
+    // console.table(inputs) // see all the form data at once in a table format
 
     return (
         <div className="spotFormWrapper">
 
-            <form className="spotForm" onSubmit={(e) => {
+            <form className="spotForm" onSubmit={async (e) => {
                 e.preventDefault();
                 setErrors(checkErrors(inputs));
+                if (Object.keys(errors).length === 0) {
+                    let urls = [];
+
+                    previewImage && urls.push({ preview: true, url: previewImage })
+                    image1 && urls.push({ preview: false, url: image1 })
+                    image2 && urls.push({ preview: false, url: image2 })
+                    image3 && urls.push({ preview: false, url: image3 })
+                    image4 && urls.push({ preview: false, url: image4 })
+
+                    const spotInfo = {
+                        urls,
+                        info: {
+                            country,
+                            address,
+                            city,
+                            state,
+                            lng: parseInt(latitude),
+                            lat: parseInt(longitude),
+                            description,
+                            name: title,
+                            price: parseInt(price),
+                        }
+                    }
+                    // console.log(spotInfo);
+                    // redo so that images and spot creation are decoupled
+                    const response = await dispatch(createSpot(spotInfo));
+                    // navigate to spot's detail page
+                }
             }}>
                 <div className="location">
                     <h2>Create a new Spot</h2>

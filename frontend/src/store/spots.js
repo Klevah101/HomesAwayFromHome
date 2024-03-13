@@ -29,6 +29,8 @@ const setSpotDetails = (spot) => {
     }
 }
 
+
+
 export const clearSpots = () => {
     return {
         type: CLEAR_SPOTS
@@ -49,6 +51,38 @@ const normalizeData = (rawData) => {
     })
     return obj;
 };
+export const createSpot = (spotInfo) => async (dispatch) => {
+
+    console.log(spotInfo)
+    // info should be an about that contains {address, city, state, country, lat, lng, name, description, price}
+    // urls should be an array of image objects
+    const { urls, info } = spotInfo;
+    const body = JSON.stringify(info);
+    const spotData = {
+        method: "POST",
+        body: body,
+    }
+
+    const response = await csrfFetch(`/api/spots`, spotData);
+    const data = await response.json();
+
+    const { id } = data;
+
+    console.log("Spot ID: ", id);
+    urls.forEach(async image => {
+        image.spotId = parseInt(id);
+        const body = JSON.stringify(image);
+        const options = {
+            method: "POST",
+            body: body
+        }
+        const response = await csrfFetch(`/api/spots/${id}/images`, options);
+        const res = await response.json()
+        return res;
+    })
+
+    dispatch(getUserSpots())
+}
 
 export const getSpotDetails = (id) => async (dispatch) => {
     // console.log(id)

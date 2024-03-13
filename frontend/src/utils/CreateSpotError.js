@@ -9,10 +9,10 @@ export const checkErrors = (inputs) => {
     if (inputs.title === "") errors["title"] = "Name is required";
     if (inputs.price === "") errors["price"] = "Price is required";
     if (inputs.previewImage === "") errors["previewImage"] = "Preview image is required";
-    if (inputs.image1 === "") errors["image1"] = "Image URL must end in .png, .jpg, or .jpeg";
-    if (inputs.image2 === "") errors["image2"] = "Image URL must end in .png, .jpg, or .jpeg";
-    if (inputs.image3 === "") errors["image3"] = "Image URL must end in .png, .jpg, or .jpeg";
-    if (inputs.image4 === "") errors["image4"] = "Image URL must end in .png, .jpg, or .jpeg";
+    // if (inputs.image1 === "") errors["image1"] = "Image URL must end in .png, .jpg, or .jpeg";
+    // if (inputs.image2 === "") errors["image2"] = "Image URL must end in .png, .jpg, or .jpeg";
+    // if (inputs.image3 === "") errors["image3"] = "Image URL must end in .png, .jpg, or .jpeg";
+    // if (inputs.image4 === "") errors["image4"] = "Image URL must end in .png, .jpg, or .jpeg";
 
     if (!inputs.description || inputs.description.length < 30) {
         errors["description"] = "Description needs a minimum of 30 characters";
