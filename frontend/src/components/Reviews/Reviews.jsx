@@ -8,6 +8,7 @@ import './Reviews.css';
 import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
 
 function Reviews({ props }) {
+
     const dispatch = useDispatch();
     const signedIn = useSelector(state => state.session.user)
     const reviewSlice = useSelector(state => state.reviews)
@@ -60,13 +61,13 @@ function Reviews({ props }) {
             {!!props.rating && <p>·</p>}
             <p> {!!props.numReviews && props.numReviews} {props.numReviews <= 0 ? "New" : props.numReviews == 1 ? "Review" : props.numReviews > 1 ? "Reviews" : ""}</p>
         </div>
-        {!signedIn ? null : leftReview() ? null : isOwner(details.ownerId) ? null : <OpenModalButton buttonText="Post a review" modalComponent={<ReviewPostModal />} />}
+        {!signedIn ? null : leftReview() ? null : isOwner(details.ownerId) ? null : <OpenModalButton buttonText="Post a review" modalComponent={<ReviewPostModal id={props.id} />} />}
 
         {(() => {
             if (!isOwner(details.ownerId) && signedIn && reviews.length === 0) return <p>Be the first to post a review!</p>
         })()}
 
-        {reviews.map(element => {
+        {reviews.reverse().map(element => {
             const date = new Date(element.createdAt)
 
             return (
@@ -75,7 +76,7 @@ function Reviews({ props }) {
                     <p> {element.User.firstName}</p>
                     <p > created at {months[date.getMonth()]} {date.getFullYear()}</p>
                     <p > {element.review}</p>
-                    {isOwner(element.userId) ? <OpenModalButton buttonText="delete" modalComponent={<DeleteReviewModal id={element.id} />} /> : null}
+                    {isOwner(element.userId) ? <OpenModalButton buttonText="delete" modalComponent={<DeleteReviewModal id={element.id} spotId={element.spotId} />} /> : null}
                 </div>
             )
         })}

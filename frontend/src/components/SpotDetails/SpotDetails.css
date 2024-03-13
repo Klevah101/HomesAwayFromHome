@@ -16,11 +16,16 @@
 }
 
 .spot-details-preview {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
+    /* position: absolute; */
+    /* top: 0;
+    left: 0; */
+    /* width: 493px; */
+    min-width: 550px;
     margin: 8px;
+    align-self: center;
+    /* min-width: 400pt; */
+    min-height: auto;
+    max-width: 500px;
 }
 
 
@@ -39,10 +44,13 @@
 }
 
 .spot-details-preview-wrapper {
-    display: inline;
+    display: grid;
     overflow: hidden;
-    width: 50%;
+    position: relative;
+    align-content: center;
+    /* width: 493px; */
     margin-right: 24px;
+    height: 380px;
 }
 
 .spot-details-about {

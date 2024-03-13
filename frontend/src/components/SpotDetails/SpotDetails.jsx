@@ -11,6 +11,7 @@ function SpotDetails() {
     const { id } = useParams();
     const dispatch = useDispatch();
     let details = useSelector(state => state.details);
+
     // let { SpotImages } = details;
     // let keys = Object.keys(details);
     // let preview = keys.filter(key => {
@@ -40,11 +41,11 @@ function SpotDetails() {
         console.log(spotImages)
         // reviews = {...details.}
     }
-    useEffect(() => {
-        dispatch(getSpotDetails(id))
-        // dispatch(gsd(id))
-        // onunount clear details and reviews
-    }, [dispatch, id])
+    // useEffect(() => {
+    //     // dispatch(getSpotDetails(id))
+    //     // dispatch(gsd(id))
+    //     // onunount clear details and reviews
+    // }, [dispatch, id])
     // preview = SpotImages.filter(image => image.preview)
 
 

@@ -2,7 +2,7 @@ import { useModal } from "../../context/Modal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 
-function DeleteReviewModal({ id }) {
+function DeleteReviewModal({ id, spotId }) {
 
     const { closeModal } = useModal();
 
@@ -26,7 +26,7 @@ function DeleteReviewModal({ id }) {
         <>
             <h2>Confirm Delete</h2>
             <p>Are you sure you want to delete this review?</p>
-            <OpenModalButton buttonText="Yes (Delete Review)" modalComponent={<ConfirmDeleteModal id={id} />} />
+            <OpenModalButton buttonText="Yes (Delete Review)" modalComponent={<ConfirmDeleteModal id={id} spotId={spotId} />} />
             <button onClick={handleNo}>No (Keep Review)</button>
         </>
     )

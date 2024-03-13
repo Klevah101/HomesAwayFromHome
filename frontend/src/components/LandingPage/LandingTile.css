@@ -6,15 +6,23 @@
 .lt-image-wrapper {
     display: grid;
     /* place-items: center; */
+    position: relative;
     width: 400px;
     height: 300px;
     overflow: hidden;
     align-content: center;
 }
 
+.lt-image-wrapper:hover p {
+    visibility: visible;
+}
+
 .lt-image-wrapper p {
+    visibility: hidden;
     border: black;
     align-self: center;
+    position: absolute;
+    left: 50%;
 }
 
 

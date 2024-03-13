@@ -4,11 +4,14 @@ import TextInput from "./TextInput";
 import TextAreaInput from "./TextAreaInput";
 import { checkErrors } from "../../utils/CreateSpotError";
 import { useDispatch, } from "react-redux"
-import { createSpot } from "../../store/spots";
+import { createSpot, deleteSpot, getUserSpots } from "../../store/spots";
+import { useNavigate } from "react-router-dom";
+import { getSpotDetails } from "../../store/spot-details";
 function CreateSpot() {
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    
+
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
@@ -76,6 +79,18 @@ function CreateSpot() {
                     // redo so that images and spot creation are decoupled
                     const response = await dispatch(createSpot(spotInfo));
                     // navigate to spot's detail page
+
+                    if (response.name === title && response.description === description) {
+                        const gusResponse = await dispatch(getUserSpots());
+
+                        const spot = gusResponse.Spots.find(element => element.id === response.id)
+                        if (spot.previewImage) {
+                            await dispatch(getSpotDetails(response.id));
+                            navigate(`/spots/${response.id}`);
+                        } else {
+                            await dispatch(deleteSpot(response.id))
+                        }
+                    }
                 }
             }}>
                 <div className="location">
@@ -130,11 +145,11 @@ function CreateSpot() {
                     <p>
                         Submit a link to at least one photo to publish your spot
                     </p>
-                    <TextInput title="PreviewImage" formId="previewImage" errorMessage={errors.previewImage} inputType="url" defaultValue={previewImage} setValue={setPreviewImage} />
-                    <TextInput title="Image URL" formId="image1" errorMessage={errors.image1} inputType="url" defaultValue={image1} setValue={setImage1} />
-                    <TextInput title="Image URL" formId="image2" errorMessage={errors.image2} inputType="url" defaultValue={image2} setValue={setImage2} />
-                    <TextInput title="Image URL" formId="image3" errorMessage={errors.image3} inputType="url" defaultValue={image3} setValue={setImage3} />
-                    <TextInput title="Image URL" formId="image4" errorMessage={errors.image4} inputType="url" defaultValue={image4} setValue={setImage4} />
+                    <TextInput title="PreviewImage" formId="previewImage" errorMessage={errors.previewImage} inputType="text" defaultValue={previewImage} setValue={setPreviewImage} />
+                    <TextInput title="Image URL" formId="image1" errorMessage={errors.image1} inputType="text" defaultValue={image1} setValue={setImage1} />
+                    <TextInput title="Image URL" formId="image2" errorMessage={errors.image2} inputType="text" defaultValue={image2} setValue={setImage2} />
+                    <TextInput title="Image URL" formId="image3" errorMessage={errors.image3} inputType="text" defaultValue={image3} setValue={setImage3} />
+                    <TextInput title="Image URL" formId="image4" errorMessage={errors.image4} inputType="text" defaultValue={image4} setValue={setImage4} />
                 </div>
                 <button>Create a Spot</button>
             </form>

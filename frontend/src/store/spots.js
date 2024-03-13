@@ -51,9 +51,21 @@ const normalizeData = (rawData) => {
     })
     return obj;
 };
+
+export const deleteSpot = (id) => async (dispatch) => {
+    const options = {
+        method: "DELETE"
+    }
+
+    const response = await csrfFetch(`/api/spots/${id}`, options);
+    const data = await response.json();
+    dispatch(getUserSpots())
+    return data;
+}
+
 export const createSpot = (spotInfo) => async (dispatch) => {
 
-    console.log(spotInfo)
+    //separate into two distinct thunks if time permits
     // info should be an about that contains {address, city, state, country, lat, lng, name, description, price}
     // urls should be an array of image objects
     const { urls, info } = spotInfo;
@@ -78,22 +90,23 @@ export const createSpot = (spotInfo) => async (dispatch) => {
         }
         const response = await csrfFetch(`/api/spots/${id}/images`, options);
         const res = await response.json()
-        return res;
+
     })
 
-    dispatch(getUserSpots())
-}
 
-export const getSpotDetails = (id) => async (dispatch) => {
-    // console.log(id)
-    const response = await fetch(`/api/spots/${id}`)
-    const rawData = await response.json()
-    // console.log("RAAAAAAAAAAAAAAAAWWWW", rawData);
-    const data = { ...rawData };
-    dispatch(setSpotDetails(data))
-    // console.log("details/////////////////////", data)
     return data;
 }
+
+// export const getSpotDetails = (id) => async (dispatch) => {
+//     // console.log(id)
+//     const response = await fetch(`/api/spots/${id}`)
+//     const rawData = await response.json()
+//     // console.log("RAAAAAAAAAAAAAAAAWWWW", rawData);
+//     const data = { ...rawData };
+//     dispatch(setSpotDetails(data))
+//     // console.log("details/////////////////////", data)
+//     return data;
+// }
 
 export const getAllSpots = () => async (dispatch) => {
     dispatch(clearSpots);
@@ -110,7 +123,7 @@ export const getUserSpots = () => async (dispatch) => {
     dispatch(clearSpots);
     const response = await csrfFetch("/api/spots/current")
     const data = await response.json();
-    dispatch(setUserSpots(data))
+    await dispatch(setUserSpots(data))
     // console.log(data)
     return data;
 }

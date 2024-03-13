@@ -154,7 +154,7 @@ router.delete('/:reviewId', authCheck, async (req, res, next) => {
         return next(err);
     }
 
-    
+
 
     if (review.userId !== user.id) {
         const err = new Error("Forbidden");
@@ -168,6 +168,7 @@ router.delete('/:reviewId', authCheck, async (req, res, next) => {
         }
     });
 
+    console.log({ "message": "Successfully deleted" })
     return res.json({ "message": "Successfully deleted" })
 })
 
