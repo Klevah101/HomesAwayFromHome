@@ -2,7 +2,26 @@
     display: flex;
     flex-direction: column;
     position: absolute;
-    right: 0px;
+    right: 20px;
+    border-color: black;
+    border-style: solid;
+    padding-left: 0px;
+    z-index: 1;
+}
+
+
+.profile-dropdown * {
+    background-color: rgb(220, 220, 220);
+    padding: 4px 8px;
+    margin: 0px 4px;
+}
+
+ul {
+    padding-right: 0px;
+}
+
+li {
+    padding-left: 0px;
 }
 
 .hidden {
@@ -12,4 +31,13 @@
 .profile-icon {
     width: 24px;
     height: 24px;
+}
+
+.profile-button {
+    display: flex;
+    background-color: rgb(75, 74, 74);
+}
+
+.profile-button svg {
+    background-color: rgb(75, 74, 74);
 }

@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import SpotTile from "../SpotTile/SpotTile";
 import './ManageSpotsPage.css'
+// import { useNavigate } from "react-router-dom";
 
 function ManageSpotsPage() {
-
+    // const navigate = useNavigate();
     const dispatch = useDispatch();
     const spots = useSelector(state => state.spots.Spots)
 
@@ -21,7 +22,9 @@ function ManageSpotsPage() {
         <div className="manage-spot-page-wrapper">
             <ManageSpotHeader />
             <div className="inner-wrapper">
-                {spots && spots.map(spot => (<SpotTile key={spot.id} spot={spot} showButtons={true} />))}
+                {spots && spots.map(spot => (
+                    <SpotTile key={spot.id} spot={spot} showButtons={true} />
+                ))}
             </div>
 
         </div>

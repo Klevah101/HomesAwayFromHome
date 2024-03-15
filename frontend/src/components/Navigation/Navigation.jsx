@@ -25,21 +25,23 @@ function Navigation({ isLoaded }) {
             <li>
                 <OpenModalButton
                     buttonText="Log In"
-                    modalComponent={<LoginFormModal />}
+                    modalComponent={<LoginFormModal
+                        className="clickable" />}
                 />
             </li>
             <li>
                 <OpenModalButton
                     buttonText="Sign Up"
-                    modalComponent={<SignupFormModal />}
+                    modalComponent={<SignupFormModal
+                        className="clickable" />}
                 />
             </li>
         </>
     );
 
     return (
-        <div className="wrapper">
-            <img src={logo} className="logo" onClick={(e) => handleLogoClick(e)} />
+        <div className="header-wrapper">
+            <img src={logo} className="logo clickable" onClick={(e) => handleLogoClick(e)} />
             <ul>
                 {sessionUser ?
                     <li className="link-text">

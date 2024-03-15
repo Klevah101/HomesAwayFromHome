@@ -1,20 +1,33 @@
 import { useModal } from "../../context/Modal";
-import OpenModalButton from "../OpenModalButton/OpenModalButton";
-import ConfirmDeleteModal from "./ConfirmDeleteModal";
-
-function DeleteReviewModal({ id, spotId }) {
-
+// import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import { useDispatch } from "react-redux";
+// import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import { deleteReview, getReviews, getUserReviews } from "../../store/reviews";
+import { getSpotDetails } from "../../store/spot-details";
+import './DeleteReview.css'
+function DeleteReviewModal({ id, spotId, parent }) {
+    const dispatch = useDispatch();
     const { closeModal } = useModal();
 
     console.log(id)
     // Function that runs when form is submitted
-    // const handleDelete = (e) => {
-    //     e.preventDefault();
-    //     // Instead of a console log this would most likely be a thunk dispatch
-    //     console.log("Submitted!");
-    //     // This will cause the modal to close after the console log has occurred
-    //     closeModal();
-    // }
+    const handleDelete = (e) => async (id, spotId) => {
+        e.preventDefault();
+        // Instead of a console log this would most likely be a thunk dispatch
+        console.log("Submitted!", id);
+        await dispatch(deleteReview(id, spotId));
+        if (parent === "ManageReviewPage") {
+            console.log(parent)
+            await dispatch(getUserReviews());
+        }
+        if (parent === "DetailsReviews") {
+            console.log(parent)
+            await dispatch(getReviews(spotId));
+            await dispatch(getSpotDetails(spotId));
+        }
+        // This will cause the modal to close after the console log has occurred
+        closeModal();
+    }
     const handleNo = (e) => {
         e.preventDefault();
         // Instead of a console log this would most likely be a thunk dispatch
@@ -23,12 +36,15 @@ function DeleteReviewModal({ id, spotId }) {
         closeModal();
     }
     return (
-        <>
+        <div className="delete-review-modal">
             <h2>Confirm Delete</h2>
             <p>Are you sure you want to delete this review?</p>
-            <OpenModalButton buttonText="Yes (Delete Review)" modalComponent={<ConfirmDeleteModal id={id} spotId={spotId} />} />
-            <button onClick={handleNo}>No (Keep Review)</button>
-        </>
+            {/* <OpenModalButton buttonText="Yes (Delete Review)" modalComponent={<ConfirmDeleteModal id={id} spotId={spotId} />} /> */}
+            <div className="confirm-cancel-button">
+                <button className="confirm" onClick={(e) => handleDelete(e)(id, spotId)} >Yes (Delete Review) </button>
+                <button className="cancel" onClick={handleNo}>No (Keep Review)</button>
+            </div>
+        </div>
     )
 }
 

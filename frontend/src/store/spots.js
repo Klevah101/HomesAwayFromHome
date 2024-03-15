@@ -3,7 +3,7 @@ import { csrfFetch } from "./csrf";
 const SET_SPOTS = "spots/setSpots";
 const GET_USER_SPOTS = "spots/getUserSpots"
 const CLEAR_SPOTS = "spots/clearSpots"
-const GET_SPOT_DETAILS = "spots/getSpotDetails"
+// const GET_SPOT_DETAILS = "spots/getSpotDetails"
 
 
 const setSpots = (spots) => {
@@ -20,14 +20,14 @@ const setUserSpots = (spots) => {
     }
 }
 
-const setSpotDetails = (spot) => {
-    const payload = {};
-    payload[spot.id] = spot;
-    return {
-        type: GET_SPOT_DETAILS,
-        payload
-    }
-}
+// const setSpotDetails = (spot) => {
+//     const payload = {};
+//     payload[spot.id] = spot;
+//     return {
+//         type: GET_SPOT_DETAILS,
+//         payload
+//     }
+// }
 
 
 
@@ -80,7 +80,7 @@ export const createSpot = (spotInfo) => async (dispatch) => {
 
     const { id } = data;
 
-    console.log("Spot ID: ", id);
+    // console.log("Spot ID: ", id);
     urls.forEach(async image => {
         image.spotId = parseInt(id);
         const body = JSON.stringify(image);
@@ -94,6 +94,21 @@ export const createSpot = (spotInfo) => async (dispatch) => {
     })
 
 
+    return data;
+}
+
+export const updateSpot = (spotInfo) => async (dispatch) => {
+
+    const { urls, info } = spotInfo;
+    const body = JSON.stringify(info);
+    const spotData = {
+        method: "PUT",
+        body: body,
+    }
+
+    const response = await csrfFetch(`/api/spots/${info.id}`, spotData);
+    const data = await response.json();
+    // console.log("Spot ID: ", id);
     return data;
 }
 

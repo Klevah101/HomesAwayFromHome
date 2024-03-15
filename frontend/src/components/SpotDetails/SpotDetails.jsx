@@ -28,6 +28,7 @@ function SpotDetails() {
     let reserveProps = {};
     let description;
     let spotImages = [];
+    let spotName;
     // let reviews = {};
     if (details.SpotImages) {
         image = details.SpotImages.find(el => el.preview === true)
@@ -38,14 +39,15 @@ function SpotDetails() {
         reserveProps = { price, numReviews, rating }
         description = details.description;
         spotImages = [...details.SpotImages.filter(el => el.preview !== true)];
-        console.log(spotImages)
+        spotName = details.name;
+        // console.log(spotImages)
         // reviews = {...details.}
     }
-    // useEffect(() => {
-    //     // dispatch(getSpotDetails(id))
-    //     // dispatch(gsd(id))
-    //     // onunount clear details and reviews
-    // }, [dispatch, id])
+    useEffect(() => {
+        dispatch(getSpotDetails(id))
+        // dispatch(gsd(id))
+        // onunount clear details and reviews
+    }, [dispatch, id])
     // preview = SpotImages.filter(image => image.preview)
 
 
@@ -62,10 +64,11 @@ function SpotDetails() {
                 <img className="spot-details-preview" src={`${image ? image.url : null}`} />
             </div>
             <div className="spot-details-images">
-                <img className="spot-details-image" src={`${spotImages[0] ? spotImages[0].url : null}`} />
-                <img className="spot-details-image" src={`${spotImages[1] ? spotImages[1].url : null}`} />
-                <img className="spot-details-image" src={`${spotImages[2] ? spotImages[2].url : null}`} />
-                <img className="spot-details-image" src={`${spotImages[3] ? spotImages[3].url : null}`} />
+                <img className="spot-details-image" src={`${spotImages[0] ? spotImages[0].url : null}`} onError={(e) => { e.target.style.display = "none" }} />
+                <img className="spot-details-image" src={`${spotImages[1] ? spotImages[1].url : null}`} onError={(e) => { e.target.style.display = "none" }} />
+                <img className="spot-details-image" src={`${spotImages[2] ? spotImages[2].url : null}`} onError={(e) => { e.target.style.display = "none" }} />
+                <img className="spot-details-image" src={`${spotImages[3] ? spotImages[3].url : null}`} onError={(e) => { e.target.style.display = "none" }} />
+
             </div>
         </div>
         <div className="spot-details-about">
@@ -80,7 +83,7 @@ function SpotDetails() {
                 </div>
             </div>
         </div>
-        <Reviews props={{ id, numReviews, rating }} />
+        <Reviews props={{ id, numReviews, rating, spotName }} />
 
 
         {/* <p>{details["SpotImages"]["preview"]}</p> */}

@@ -16,7 +16,7 @@ function LandingPageTile({ spot, showButtons }) {
     // const [hover, setHover] = useState(false);
 
     return (
-        <div className="LandingTile-wrapper" onClick={handleUpdate}>
+        <div className="LandingTile-wrapper clickable" onClick={handleUpdate}>
             <div className='lt-image-wrapper'  >
                 {<p className={`lt-tooltips`} >{spot.name}</p>}
                 <img className="lt-image" src={spot.previewImage} />
@@ -26,8 +26,8 @@ function LandingPageTile({ spot, showButtons }) {
                 <p>{spot.city}, {spot.state}</p>
                 <p><FaStar />{(() => {
                     const rating = spot.avgRating || "New";
-                    if (typeof rating == String) return rating;
-                    return ((rating - Math.floor(rating)) !== 0 ? rating : rating.toFixed(1))
+                    if (typeof rating == "string") return rating;
+                    return ((rating - Math.floor(rating)) !== 0 ? rating.toFixed(2) : rating.toFixed(1))
                 })()}</p>
             </div>
 

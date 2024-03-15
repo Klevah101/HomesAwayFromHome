@@ -2,9 +2,10 @@
     width: 100px;
 }
 
-.wrapper {
+.header-wrapper {
     display: flex;
     /* justify-content: space-between; */
+    margin: 8pt 0pt;
     align-items: center;
     padding-inline: 20pt;
 }

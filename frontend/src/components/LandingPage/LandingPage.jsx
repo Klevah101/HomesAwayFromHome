@@ -34,7 +34,7 @@ function LandingPage() {
         <div className="landingpage-wrapper">
             {/* <ManageSpotHeader /> */}
             <div className="landingpage-tiles">
-                {spotArray && spotArray.map(spot => (<LandingPageTile key={spot.id} spot={spot} showButtons={false} />))}
+                {spotArray && spotArray.map(spot => (<LandingPageTile key={spot.id} spot={spot} showButtons={false}  />))}
             </div>
         </div>
     )

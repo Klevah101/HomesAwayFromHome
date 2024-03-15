@@ -3,3 +3,13 @@
     flex-direction: flex;
     ;
 }
+
+button {
+    height: 30px;
+    margin-right: 20px;
+    box-shadow: 3px 3px 3px rgb(45, 69, 75);
+}
+
+.review-section{
+    margin:16px;
+}

@@ -11,7 +11,18 @@ const storeReviews = (reviews) => {
     }
 }
 
-export const deleteReview = (id, spotId) => async (dispatch) => {
+export const updateReview = (info) => async () => {
+    console.table("thunk Id", info)
+    const options = {
+        method: "PUT",
+        body: JSON.stringify(info)
+    }
+    const response = await csrfFetch(`/api/reviews/${info.id}`, options)
+    const data = await response.json();
+    return data;
+}
+
+export const deleteReview = (id) => async () => {
     const options = {
         method: "DELETE",
     }
@@ -19,8 +30,6 @@ export const deleteReview = (id, spotId) => async (dispatch) => {
     const data = await response.json();
     console.log(response);
     console.log(id)
-    await dispatch(getReviews(spotId));
-    await dispatch(getSpotDetails(spotId));
     return data;
 }
 
@@ -40,7 +49,7 @@ export const createReview = (info) => async (dispatch) => {
 }
 
 export const getReviews = (id) => async (dispatch) => {
-    const response = await fetch(`/api/spots/${id}/reviews/`)
+    const response = await fetch(`/api/spots/${id}/reviews`)
     const data = await response.json();
     const obj = {}
     data.Reviews.forEach(element => {
@@ -48,6 +57,18 @@ export const getReviews = (id) => async (dispatch) => {
     });
     await dispatch(storeReviews(obj))
     return data
+}
+
+export const getUserReviews = () => async (dispatch) => {
+    const response = await csrfFetch(`/api/reviews/current`);
+    const data = await response.json();
+    console.log(data);
+    const obj = {}
+    data.Reviews.forEach(element => {
+        obj[element.id] = element
+    });
+    await (dispatch(storeReviews(obj)))
+    // return data;
 }
 
 const initialState = {};

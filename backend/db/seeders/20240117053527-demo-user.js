@@ -48,7 +48,14 @@ const dataset2 = [
     email: 'krustycook@bikinibottom.io',
     username: 'KrustyCook',
     hashedPassword: bcrypt.hashSync('crabbypatty')
-  }
+  },
+  {
+    firstname: 'Demo',
+    lastName: 'lition',
+    email: 'demo@user.io',
+    username: 'Demo-lition',
+    hashedPassword: bcrypt.hashSync('password')
+  },
 ];
 
 /** @type {import('sequelize-cli').Migration} */

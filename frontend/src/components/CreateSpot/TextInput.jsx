@@ -2,8 +2,9 @@ function TextInput({ formId, title, errorMessage, inputType, setValue, defaultVa
 
     return (
         <>
-            <label htmlFor={formId}><p>{title} <span className="error">{errorMessage}</span></p></label>
-            <input type={inputType} id={formId} defaultValue={defaultValue} onChange={(e) => setValue(e.target.value)} />
+            <label htmlFor={formId}><p>{title} </p></label>
+            <input type={inputType} className="input-field" id={formId} defaultValue={defaultValue} onChange={(e) => setValue(e.target.value)} />
+            <label className="error">{errorMessage}</label>
         </>
     )
 }

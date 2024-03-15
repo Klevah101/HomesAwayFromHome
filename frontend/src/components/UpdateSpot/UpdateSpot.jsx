@@ -3,13 +3,17 @@ import { useEffect, useState } from "react"
 import './UpdateSpot.css'
 import TextInput from "../CreateSpot/TextInput";
 import TextAreaInput from "../CreateSpot/TextAreaInput";
-import { checkErrors } from "../../utils/CreateSpotError";
+import { checkUpdateErrors } from "../../utils/UpdateSpotError";
 import { useDispatch } from "react-redux";
 import { getSpotDetails } from "../../store/spot-details";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
-function UpdateSpot() {
+import { updateSpot, getUserSpots } from "../../store/spots";
+import { deleteSpot } from "../../store/spots";
 
+
+function UpdateSpot() {
+    // const { spotId } = useParams();
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
@@ -77,15 +81,57 @@ function UpdateSpot() {
 
     }, [dispatch, id])
     // console.log('updateSpot', details.city);
-    const handleSubmit = () => {
-        navigate(`/spots/${id}`)
-    }
+    // const handleSubmit = () => {
+
+    // }
     return (
         <div className="spotFormWrapper">
 
-            <form className="spotForm" onSubmit={(e) => {
+            <form className="spotForm" onSubmit={async (e) => {
                 e.preventDefault();
-                setErrors(checkErrors(inputs));
+                setErrors(checkUpdateErrors(inputs));
+                console.table(inputs)
+                if (Object.keys(errors).length === 0) {
+                    let urls = [];
+
+                    previewImage && urls.push({ preview: true, url: previewImage })
+                    image1 && urls.push({ preview: false, url: image1 })
+                    image2 && urls.push({ preview: false, url: image2 })
+                    image3 && urls.push({ preview: false, url: image3 })
+                    image4 && urls.push({ preview: false, url: image4 })
+
+                    const spotInfo = {
+                        urls,
+                        info: {
+                            id,
+                            country,
+                            address,
+                            city,
+                            state,
+                            lng: parseInt(latitude),
+                            lat: parseInt(longitude),
+                            description,
+                            name: title,
+                            price: parseInt(price),
+                        }
+                    }
+
+                    console.log(spotInfo)
+                    const response = await dispatch(updateSpot(spotInfo));
+
+                    if (response.name === title && response.description === description) {
+                        const gusResponse = await dispatch(getUserSpots());
+
+                        const spot = gusResponse.Spots.find(element => element.id === response.id)
+                        if (spot.previewImage) {
+                            await dispatch(getSpotDetails(response.id));
+                            navigate(`/spots/${response.id}`);
+                        } else {
+                            await dispatch(deleteSpot(response.id))
+                        }
+                    }
+                    // navigate(`/spots/${id}`)
+                }
             }}>
                 <div className="location">
                     <h2>Update Your Spot</h2>
@@ -145,7 +191,8 @@ function UpdateSpot() {
                     <TextInput title="Image URL" formId="image3" errorMessage={errors.image3} inputType="url" defaultValue={image3} setValue={setImage3} />
                     <TextInput title="Image URL" formId="image4" errorMessage={errors.image4} inputType="url" defaultValue={image4} setValue={setImage4} />
                 </div>
-                <button onClick={handleSubmit}>Update your Spot</button>
+                {/* <button onClick={handleSubmit}>Update your Spot</button> */}
+                <button >Update your Spot</button>
             </form>
         </div>
     )

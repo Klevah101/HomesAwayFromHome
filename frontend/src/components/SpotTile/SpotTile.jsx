@@ -11,28 +11,32 @@ function SpotTile({ spot, showButtons, showDetails }) {
 
     return (
         <div className="spotTile-wrapper">
-            <div className='image-wrapper'>
+            <div className='image-wrapper' onClick={() => navigate(`/spots/${spot.id}`)}>
+
                 <p className="tooltips">{spot.name}</p>
                 {/* {spot.previewImage.url ? <img className="image" src={spot.previewImage.url} : <img className="image" src={spot.previewImage} />} */}
                 <img className="image" src={spot.previewImage.url ? spot.previewImage.url : spot.previewImage} />
 
             </div>
-            <p>{spot.city}</p>
-            <p>{spot.state}</p>
+            <div onClick={() => navigate(`/spots/${spot.id}`)}>
+                <p>{spot.city}</p>
+                <p>{spot.state}</p>
+            </div>
 
             {showDetails ? <div>
                 <p>{spot.avgRating || "New"}</p>
                 <p>${spot.price} night</p>
             </div> : null
             }
-
-            {showButtons ?
-                <div className="manage-buttons">
-                    <button onClick={handleUpdate}>Update</button>
-                    <OpenModalButton buttonText="Delete" modalComponent={<DeleteSpotModal id={spot.id} />} />
-                </div>
-                : null
-            }
+            <div>
+                {showButtons ?
+                    <div className="manage-buttons">
+                        <button onClick={handleUpdate}>Update</button>
+                        <OpenModalButton buttonText="Delete" modalComponent={<DeleteSpotModal id={spot.id} />} />
+                    </div>
+                    : null
+                }
+            </div>
         </div>
 
     )

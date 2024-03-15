@@ -6,8 +6,10 @@ import OpenModalButton from '../OpenModalButton/OpenModalButton'
 import ReviewPostModal from './ReviewPostModal'
 import './Reviews.css';
 import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
+import ReviewUpdateModal from "./ReviewUpdateModal";
 
 function Reviews({ props }) {
+    console.log("nnnnnnnnnnnaaaaaaaaaaaaaaaaame", props.spotName)
 
     const dispatch = useDispatch();
     const signedIn = useSelector(state => state.session.user)
@@ -53,7 +55,7 @@ function Reviews({ props }) {
             <p><FaStar /></p>
             <p>{(() => {
                 if (!props.rating) return ""
-                if (props.rating) return ((props.rating - Math.floor(props.rating)) !== 0 ? props.rating : props.rating.toFixed(1))
+                if (props.rating) return ((props.rating - Math.floor(props.rating)) !== 0 ? props.rating.toFixed(2) : props.rating.toFixed(1))
             })()
             } </p>
             {/* <p>{props.rating && props.rating - Math.floor(props.rating) === 0 ? props.rating.toFixed(1) || "New" : props.rating} </p> */}
@@ -69,16 +71,22 @@ function Reviews({ props }) {
 
         {reviews.reverse().map(element => {
             const date = new Date(element.createdAt)
-
-            return (
-                <div key={element.id}>
-                    {/* <p > stars {element.User.firstName}</p> */}
-                    <p> {element.User.firstName}</p>
-                    <p > created at {months[date.getMonth()]} {date.getFullYear()}</p>
-                    <p > {element.review}</p>
-                    {isOwner(element.userId) ? <OpenModalButton buttonText="delete" modalComponent={<DeleteReviewModal id={element.id} spotId={element.spotId} />} /> : null}
-                </div>
-            )
+            if (parseInt(props.id) === parseInt(element.spotId)) {
+                return (
+                    <div key={element.id} className="review-section">
+                        {/* <p > stars {element.User.firstName}</p> */}
+                        <p className="user-name"> {element.User.firstName}</p>
+                        <p className="date"> {months[date.getMonth()]} {date.getFullYear()}</p>
+                        <p className="review-body"> {element.review}</p>
+                        {isOwner(element.userId) ?
+                            <>
+                                <OpenModalButton buttonText="Update" modalComponent={<ReviewUpdateModal id={reviewSlice[element.id].id} spotName={props.spotName} />} />
+                                <OpenModalButton buttonText="Delete" modalComponent={<DeleteReviewModal id={element.id} parent="DetailsReviews" spotId={element.spotId} />} />
+                            </>
+                            : null}
+                    </div>
+                )
+            }
         })}
     </>
     )

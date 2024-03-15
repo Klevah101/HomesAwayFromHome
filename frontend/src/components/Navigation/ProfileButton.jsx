@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle, FaListUl } from 'react-icons/fa';
 import * as sessionActions from '../../store/session';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './ProfileButton.css'
+// import { getUserReviews } from '../../store/reviews';
 
 function ProfileButton({ user }) {
     const dispatch = useDispatch();
@@ -41,15 +42,16 @@ function ProfileButton({ user }) {
 
     return (
         <>
-            <button onClick={toggleMenu}>
-                <FaUserCircle className="profile-icon" />
+            <button onClick={toggleMenu} className="clickable profile-button">
+                <FaListUl className='profile-icon' /><p> </p><FaUserCircle className="profile-icon" />
             </button>
             <ul className={ulClassName} ref={ulRef}>
                 <li>Hello, {user.firstName}</li>
                 <li>{user.email}</li>
-                <li><NavLink to='/spots/current'>Manage Spots</NavLink></li>
+                <li><NavLink to='/spots/current' className="menu-link">Manage Spots</NavLink></li>
+                <li><NavLink to='/reviews/current' className="menu-link">Manage Reviews</NavLink></li>
                 <li>
-                    <button onClick={logout}>Log Out</button>
+                    <button onClick={logout} className="clickable">Log Out</button>
                 </li>
             </ul>
         </>

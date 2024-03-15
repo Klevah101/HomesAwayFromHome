@@ -588,7 +588,7 @@ router.put('/:spotId', authCheck, validateSpot, async (req, res, next) => {
     if (name) newTable["name"] = name
     if (description) newTable["description"] = description
     if (price !== null || price !== undefined) newTable["price"] = price
-    spot.update(newTable);
+    await spot.update(newTable);
 
     return res.json(spot);
 })

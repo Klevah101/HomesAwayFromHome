@@ -12,11 +12,13 @@ function DeleteSpotModal({ id }) {
     }
 
     return (
-        <div>
+        <div className="delete-spot-modal">
             <h2>Confirm Delete</h2>
             <p>Are you sure you want to remove this spot?</p>
-            <button onClick={handleDelete}>Yes (Delete Spot)</button>
-            <button>No (Keep Spot)</button>
+            <div className="confirm-cancel-button">
+                <button className="confirm" onClick={handleDelete}>Yes (Delete Spot)</button>
+                <button className="cancel" onClick={closeModal}>No (Keep Spot)</button>
+            </div>
         </div>
     )
 }

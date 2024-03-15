@@ -10,15 +10,15 @@ function Reserve({ props }) {
                     <p><FaStar /> </p>
                     <p>{(() => {
                         // if (!props.rating) return "New"
-                        if (props.rating) return (props.rating - Math.floor(props.rating)) !== 0 ? props.rating : props.rating.toFixed(1)
+                        if (props.rating) return (props.rating - Math.floor(props.rating)) !== 0 ? props.rating.toFixed(2) : props.rating.toFixed(1)
                     })()
                     } </p>
-                     {!!props.rating && <p>·</p>}
+                    {!!props.rating && <p>·</p>}
                     <p> {!!props.numReviews && props.numReviews} {props.numReviews <= 0 ? "New" : props.numReviews == 1 ? "Review" : "Reviews"}</p>
                 </div>
             </div>
             <div>
-                <button id="reserve-button" onClick={() => window.alert("Feature Coming Soon...")}>Reserve</button>
+                <button id="reserve-button" className="clickable" onClick={() => window.alert("Feature Coming Soon...")}>Reserve</button>
             </div>
         </div>)
 }

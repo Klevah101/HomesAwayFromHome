@@ -15,6 +15,10 @@ function SignupFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
+  const errorList = Object.keys(errors).map(key => {
+    return (errors[key])
+  })
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
@@ -31,6 +35,7 @@ function SignupFormModal() {
         .then(closeModal)
         .catch(async (res) => {
           const data = await res.json();
+          console.log(data)
           if (data?.errors) {
             setErrors(data.errors);
           }
@@ -44,6 +49,9 @@ function SignupFormModal() {
   return (
     <>
       <h1>Sign Up</h1>
+      {errorList.map(error => {
+        return (<p className="error"> {error}</p>)
+      })}
       <form onSubmit={handleSubmit}>
         <label>
           Email
@@ -51,7 +59,7 @@ function SignupFormModal() {
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
+          // required
           />
         </label>
         {errors.email && <p>{errors.email}</p>}
@@ -61,7 +69,7 @@ function SignupFormModal() {
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            required
+          // required
           />
         </label>
         {errors.username && <p>{errors.username}</p>}
@@ -71,7 +79,7 @@ function SignupFormModal() {
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            required
+          // required
           />
         </label>
         {errors.firstName && <p>{errors.firstName}</p>}
@@ -81,7 +89,7 @@ function SignupFormModal() {
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            required
+          // required
           />
         </label>
         {errors.lastName && <p>{errors.lastName}</p>}
@@ -91,7 +99,7 @@ function SignupFormModal() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
+          // required
           />
         </label>
         {errors.password && <p>{errors.password}</p>}
@@ -101,14 +109,20 @@ function SignupFormModal() {
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            required
+          // required
           />
         </label>
         {errors.confirmPassword && (
           <p>{errors.confirmPassword}</p>
         )}
-        <button type="submit">Sign Up</button>
-      </form>
+        <button type="submit" disabled={(() => {
+          if (!email || !username || !firstName || !lastName || !password || !confirmPassword) return true;
+          if (username.length < 4) return true;
+          if (password.length < 6) return true;
+         
+
+        })()}>Sign Up</button>
+      </form >
     </>
   );
 }

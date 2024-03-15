@@ -1,1 +1,130 @@
 /* TODO: Add sitewide styles */
+
+/* @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&family=Staatliches&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&family=Staatliches&family=Vidaloka&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Rubik:ital,wght@0,300..900;1,300..900&family=Staatliches&family=Vidaloka&display=swap');
+/* // <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 300 to 900 */
+
+.rubik-header {
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.staatliches-regular {
+    font-family: "Staatliches", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.vidaloka-regular {
+    font-family: "Vidaloka", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.balsamiq-sans-regular {
+    font-family: "Balsamiq Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h2 {
+    font-family: "Staatliches", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+p {
+    font-family: "Vidaloka", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.date {
+    font-family: "Balsamiq Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1rem;
+}
+
+.review-body {
+    background-color: white;
+}
+
+/* h2 {
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+} */
+
+p {
+    font-size: 1.25rem;
+    padding: 0 4px;
+}
+
+h2 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.clickable:hover {
+    cursor: pointer;
+}
+
+.center {
+    justify-self: center;
+}
+
+svg {
+    color: rgb(190, 150, 38);
+}
+
+button:hover {
+    cursor: pointer;
+
+}
+
+button {
+    color: white;
+    background-color: rgb(62, 127, 129);
+    box-shadow: 3px 3px 3px rgb(45, 69, 75);
+    margin-bottom: 5px;
+}
+
+textarea {
+    width: 95%;
+    height: 100px;
+    margin: 0 8px;
+}
+
+.confirm {
+    background-color: red
+}
+
+.cancel {
+    background-color: rgb(90, 88, 88);
+}
+
+.confirm-cancel-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a {
+    color: rgb(0, 128, 79);
+}
+
+.two-item-input .input-field {
+    max-width: fit-content;
+}
+
+
+.two-item-input div {
+    max-width: 50%;
+}
