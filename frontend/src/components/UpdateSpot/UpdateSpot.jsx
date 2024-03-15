@@ -65,10 +65,10 @@ function UpdateSpot() {
             setDescription(data.description)
             data.SpotImages.forEach(el => {
                 if (el.preview === true) {
-                    console.log("preview")
+                 
                     setPreviewImage(el.url)
                 }
-                else console.log("regular image")
+                else 
             })
 
             // setPreviewImage(data.SpotImages[0].url)
@@ -90,7 +90,7 @@ function UpdateSpot() {
             <form className="spotForm" onSubmit={async (e) => {
                 e.preventDefault();
                 setErrors(checkUpdateErrors(inputs));
-                console.table(inputs)
+              
                 if (Object.keys(errors).length === 0) {
                     let urls = [];
 
@@ -116,7 +116,7 @@ function UpdateSpot() {
                         }
                     }
 
-                    console.log(spotInfo)
+               
                     const response = await dispatch(updateSpot(spotInfo));
 
                     if (response.name === title && response.description === description) {

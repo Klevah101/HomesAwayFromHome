@@ -19,11 +19,11 @@ function ReviewUpdateModal({ id, spotName }) {
     const { closeModal } = useModal();
     const handleClick = async (e) => {
         e.preventDefault();
-        console.log("clickaroooooo")
+      
         if (error) {
-            console.log('There is an error')
+         
         } else {
-            console.log(id)
+        
             const info = {
                 id,
                 stars,
@@ -31,8 +31,7 @@ function ReviewUpdateModal({ id, spotName }) {
             }
             const response = await dispatch(updateReview(info))
             await dispatch(getUserReviews());
-            console.log(response.status)
-            console.log('this is the post review response', response)
+          
             // await dispatch(getReviews());
             setError('');
             closeModal();

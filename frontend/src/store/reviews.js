@@ -12,7 +12,7 @@ const storeReviews = (reviews) => {
 }
 
 export const updateReview = (info) => async () => {
-    console.table("thunk Id", info)
+  
     const options = {
         method: "PUT",
         body: JSON.stringify(info)
@@ -28,8 +28,7 @@ export const deleteReview = (id) => async () => {
     }
     const response = await csrfFetch(`/api/reviews/${id}`, options);
     const data = await response.json();
-    console.log(response);
-    console.log(id)
+  
     return data;
 }
 
@@ -62,7 +61,7 @@ export const getReviews = (id) => async (dispatch) => {
 export const getUserReviews = () => async (dispatch) => {
     const response = await csrfFetch(`/api/reviews/current`);
     const data = await response.json();
-    console.log(data);
+
     const obj = {}
     data.Reviews.forEach(element => {
         obj[element.id] = element

@@ -10,19 +10,19 @@ function DeleteReviewModal({ id, spotId, parent }) {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
-    console.log(id)
+   
     // Function that runs when form is submitted
     const handleDelete = (e) => async (id, spotId) => {
         e.preventDefault();
         // Instead of a console log this would most likely be a thunk dispatch
-        console.log("Submitted!", id);
+     
         await dispatch(deleteReview(id, spotId));
         if (parent === "ManageReviewPage") {
-            console.log(parent)
+        
             await dispatch(getUserReviews());
         }
         if (parent === "DetailsReviews") {
-            console.log(parent)
+          
             await dispatch(getReviews(spotId));
             await dispatch(getSpotDetails(spotId));
         }
@@ -32,7 +32,7 @@ function DeleteReviewModal({ id, spotId, parent }) {
     const handleNo = (e) => {
         e.preventDefault();
         // Instead of a console log this would most likely be a thunk dispatch
-        console.log("No");
+     
         // This will cause the modal to close after the console log has occurred
         closeModal();
     }

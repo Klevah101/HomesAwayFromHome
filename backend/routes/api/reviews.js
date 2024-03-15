@@ -168,7 +168,7 @@ router.delete('/:reviewId', authCheck, async (req, res, next) => {
         }
     });
 
-    console.log({ "message": "Successfully deleted" })
+   
     return res.json({ "message": "Successfully deleted" })
 })
 

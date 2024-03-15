@@ -9,7 +9,7 @@ import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
 import ReviewUpdateModal from "./ReviewUpdateModal";
 
 function Reviews({ props }) {
-    console.log("nnnnnnnnnnnaaaaaaaaaaaaaaaaame", props.spotName)
+  
 
     const dispatch = useDispatch();
     const signedIn = useSelector(state => state.session.user)

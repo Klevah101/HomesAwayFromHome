@@ -9,7 +9,7 @@ function ConfirmDeleteModal({ id, spotId }) {
     const handleSubmit = (e) => async (id, spotId) => {
         e.preventDefault();
         // Instead of a console log this would most likely be a thunk dispatch
-        console.log("Submitted!", id);
+    
         await dispatch(deleteReview(id, spotId));
         // This will cause the modal to close after the console log has occurred
         closeModal();
