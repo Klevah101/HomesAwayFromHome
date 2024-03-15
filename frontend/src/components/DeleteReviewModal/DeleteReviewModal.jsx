@@ -40,11 +40,8 @@ function DeleteReviewModal({ id, spotId, parent }) {
         <div className="delete-review-modal">
             <h2>Confirm Delete</h2>
             <p>Are you sure you want to delete this review?</p>
-            {/* <OpenModalButton buttonText="Yes (Delete Review)" modalComponent={<ConfirmDeleteModal id={id} spotId={spotId} />} /> */}
-            {/* <div className="confirm-cancel-button"> */}
                 <button className="confirm" onClick={(e) => handleDelete(e)(id, spotId)} >Yes (Delete Review) </button>
                 <button className="cancel" onClick={handleNo}>No (Keep Review)</button>
-            {/* </div> */}
         </div>
     )
 }

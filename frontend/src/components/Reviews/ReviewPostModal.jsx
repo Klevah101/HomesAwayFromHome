@@ -15,27 +15,19 @@ function ReviewPostModal({ id }) {
     const { closeModal } = useModal();
     const handleClick = async (e) => {
         e.preventDefault();
-     
-        if (error) {
-          
-        } else {
-         
+
+        if (!error) {
             const info = {
                 id,
                 stars,
                 review
             }
-            const response = await dispatch(createReview(info))
-        
-            // await dispatch(getReviews());
+            await dispatch(createReview(info))
             setError('');
             closeModal();
         }
 
     }
-
-
-    // const [starClicked, setStarClicked] = useState(false);
 
     let starLayout = [];
 
@@ -60,7 +52,7 @@ function ReviewPostModal({ id }) {
             <div className="review-rate-stars">
                 {starLayout} <label>Stars</label>
             </div>
-            <button className="review-post-update-button"disabled={review.length < 10 || stars === 0} onClick={handleClick}>Submit Your Review</button>
+            <button className="review-post-update-button" disabled={review.length < 10 || stars === 0} onClick={handleClick}>Submit Your Review</button>
         </div>
     )
 }

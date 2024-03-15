@@ -4,12 +4,13 @@
 
 .header-wrapper {
     display: flex;
-    /* justify-content: space-between; */
     margin: 8pt 0pt;
     align-items: center;
     padding-inline: 20pt;
+    border-bottom-style: solid;
+    border-color:rgb(0, 77, 0) ;
+    padding:16px;
 }
-
 
 ul {
     display: flex;
@@ -25,13 +26,21 @@ ul {
 
 .menu-link {
     text-decoration: none;
+    padding: 4px 16px;
+    border-radius: 10px;
+}
+
+.menu-link-cs {
+
+    border-style: solid;
+    box-shadow: 4px 4px 8px rgb(0, 51, 0, .5);
 }
 
 .menu-link:visited {
     color: green;
 }
 
-/* .profile-dropdown {
+.right-menu {
     display: flex;
-    flex-direction: column;
-} */
+    align-items: center;
+}

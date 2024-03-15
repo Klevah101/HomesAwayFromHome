@@ -14,7 +14,6 @@ function SpotTile({ spot, showButtons, showDetails }) {
             <div className='image-wrapper' onClick={() => navigate(`/spots/${spot.id}`)}>
 
                 <p className="tooltips">{spot.name}</p>
-                {/* {spot.previewImage.url ? <img className="image" src={spot.previewImage.url} : <img className="image" src={spot.previewImage} />} */}
                 <img className="image" src={spot.previewImage.url ? spot.previewImage.url : spot.previewImage} />
 
             </div>

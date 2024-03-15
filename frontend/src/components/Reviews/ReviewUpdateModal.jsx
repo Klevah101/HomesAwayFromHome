@@ -19,28 +19,21 @@ function ReviewUpdateModal({ id, spotName }) {
     const { closeModal } = useModal();
     const handleClick = async (e) => {
         e.preventDefault();
-      
-        if (error) {
-         
-        } else {
-        
+
+        if (!error) {
+
             const info = {
                 id,
                 stars,
                 review
             }
-            const response = await dispatch(updateReview(info))
+            await dispatch(updateReview(info))
             await dispatch(getUserReviews());
-          
-            // await dispatch(getReviews());
             setError('');
             closeModal();
         }
 
     }
-
-
-    // const [starClicked, setStarClicked] = useState(false);
 
     let starLayout = [];
 

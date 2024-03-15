@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import * as sessionActions from '../../store/session';
 import './SignupForm.css';
-import TextInput from '../CreateSpot/TextInput';
+
 
 function SignupFormModal() {
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ function SignupFormModal() {
         .then(closeModal)
         .catch(async (res) => {
           const data = await res.json();
-       
+
           if (data?.errors) {
             setErrors(data.errors);
           }
@@ -52,8 +52,8 @@ function SignupFormModal() {
 
       <form className="signup-form" onSubmit={handleSubmit}>
         <h1>Sign Up</h1>
-        {errorList.map(error => {
-          return (<p className="error"> {error}</p>)
+        {errorList.map((error, index) => {
+          return (<p key={index } className="error"> {error}</p>)
         })}
         <label >
           Email
@@ -64,9 +64,6 @@ function SignupFormModal() {
           // required
           />
         </label>
-
-        {/* <TextInput title="Email" formId="email" inputType={"text"} setValue={setEmail} /> */}
-
         {errors.email && <p>{errors.email}</p>}
         <label>
           Username
@@ -77,7 +74,6 @@ function SignupFormModal() {
           // required
           />
         </label>
-        {/* <TextInput title="Username" formId="username" inputType={"text"} setValue={setUsername} /> */}
         {errors.username && <p>{errors.username}</p>}
         <label>
           First Name
@@ -88,7 +84,6 @@ function SignupFormModal() {
           // required
           />
         </label>
-        {/* <TextInput title="First Name" formId="first Name" inputType={"text"} setValue={setFirstName} /> */}
         {errors.firstName && <p>{errors.firstName}</p>}
         <label>
           Last Name
@@ -99,7 +94,6 @@ function SignupFormModal() {
           // required
           />
         </label>
-        {/* <TextInput title="LastName" formId="lastName" inputType={"text"} setValue={setLastName} /> */}
         {errors.lastName && <p>{errors.lastName}</p>}
         <label>
           Password
@@ -110,7 +104,6 @@ function SignupFormModal() {
           // required
           />
         </label>
-        {/* <TextInput title="Password" formId="password" inputType={"password"} setValue={setPassword} /> */}
         {errors.password && <p>{errors.password}</p>}
         <label>
           Confirm Password
@@ -121,7 +114,6 @@ function SignupFormModal() {
           // required
           />
         </label>
-        {/* <TextInput title="Confirm Password" formId="confirm-password" inputType={"password"} setValue={setConfirmPassword} /> */}
         {errors.confirmPassword && (
           <p>{errors.confirmPassword}</p>
         )}

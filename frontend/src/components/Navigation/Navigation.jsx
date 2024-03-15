@@ -42,10 +42,10 @@ function Navigation({ isLoaded }) {
     return (
         <div className="header-wrapper">
             <img src={logo} className="logo clickable" onClick={(e) => handleLogoClick(e)} />
-            <ul>
+            <ul className='right-menu'>
                 {sessionUser ?
                     <li className="link-text">
-                        <NavLink to="/spots/new" className="menu-link">Create a New Spot</NavLink>
+                        <NavLink to="/spots/new" className="menu-link menu-link-cs">Create a New Spot</NavLink>
                     </li> : null}
                 {isLoaded && sessionLinks}
             </ul>

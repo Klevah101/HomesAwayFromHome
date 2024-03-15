@@ -3,7 +3,6 @@ import { FaStar } from 'react-icons/fa'
 function Reserve({ props }) {
     return (
         <div className="reserve-wrapper">
-            {/* <h2>Reserve Component</h2> */}
             <div className="reserve-info">
                 <p>${props.price} night</p>
                 <div className="rate-review-info">

@@ -3,13 +3,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    /* margin: 124px 0; */
 }
-
-/* .landingpage-wrapper img {
-     width: 50% 
-}
-*/
 
 .landingpage-tiles {
     display: flex;
@@ -17,7 +11,3 @@
     margin: 0 auto;
     width: 95%;
 }
-
-/* img {
-    width: 25%
-} */

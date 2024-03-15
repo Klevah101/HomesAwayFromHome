@@ -7,13 +7,13 @@
     border-style: solid;
     padding-left: 0px;
     z-index: 1;
+    margin-top: 16px;
 }
-
 
 .profile-dropdown * {
     background-color: rgb(220, 220, 220);
     padding: 4px 8px;
-    margin: 0px 0px;
+    margin: px 0px;
 }
 
 .profile-dropdown li p {

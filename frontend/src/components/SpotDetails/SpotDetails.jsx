@@ -58,7 +58,6 @@ function SpotDetails() {
             <p></p>
             <p></p>
         </div>
-        {/* <p>{`${image ? image.url : null}`}</p> */}
         <div className="spot-images">
             <div className="spot-details-preview-wrapper">
                 <img className="spot-details-preview" src={`${image ? image.url : null}`} />
@@ -84,9 +83,6 @@ function SpotDetails() {
             </div>
         </div>
         <Reviews props={{ id, numReviews, rating, spotName }} />
-
-
-        {/* <p>{details["SpotImages"]["preview"]}</p> */}
     </div>)
 }
 

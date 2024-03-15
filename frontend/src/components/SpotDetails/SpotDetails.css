@@ -1,6 +1,6 @@
 .spot-details-wrapper {
     max-width: 1000px;
-    margin: 0 auto;
+    margin: 0 auto;  
 }
 
 .spot-details-location {
@@ -16,18 +16,12 @@
 }
 
 .spot-details-preview {
-    /* position: absolute; */
-    /* top: 0;
-    left: 0; */
-    /* width: 493px; */
     min-width: 550px;
     margin: 8px;
     align-self: center;
-    /* min-width: 400pt; */
     min-height: auto;
     max-width: 500px;
 }
-
 
 .spot-details-images {
     display: flex;
@@ -41,16 +35,28 @@
     height: 175px;
     min-width: 200px;
     margin: 8px;
+    border-style: solid;
+    border-radius: 8px;
+    border-color: rgb(127, 145, 123);
+    box-shadow: 4px 4px 8px rgb(7, 41, 0,.7);
 }
+
 
 .spot-details-preview-wrapper {
     display: grid;
     overflow: hidden;
     position: relative;
     align-content: center;
-    /* width: 493px; */
     margin-right: 24px;
     height: 380px;
+    border-style: solid;
+    border-radius: 8px;
+    border-color: rgb(127, 145, 123);
+    box-shadow: 4px 4px 8px rgb(7, 41, 0,.7);
+}
+
+.spot-details-preview-wrapper img{
+    margin-left:0
 }
 
 .spot-details-about {

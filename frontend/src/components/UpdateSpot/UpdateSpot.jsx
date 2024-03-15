@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-// import { useSelector } from "react-redux/es/hooks/useSelector";
 import './UpdateSpot.css'
 import TextInput from "../CreateSpot/TextInput";
 import TextAreaInput from "../CreateSpot/TextAreaInput";
@@ -13,7 +12,6 @@ import { deleteSpot } from "../../store/spots";
 
 
 function UpdateSpot() {
-    // const { spotId } = useParams();
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
@@ -68,22 +66,13 @@ function UpdateSpot() {
                  
                     setPreviewImage(el.url)
                 }
-                else 
+                
             })
 
-            // setPreviewImage(data.SpotImages[0].url)
-            // setCountry(details.country)
-            // setCountry(details.country)
-            // setCountry(details.country)
-            // setCountry(details.country)
-            // setCountry(details.country)
+      
         })
 
     }, [dispatch, id])
-    // console.log('updateSpot', details.city);
-    // const handleSubmit = () => {
-
-    // }
     return (
         <div className="spotFormWrapper">
 
@@ -130,7 +119,6 @@ function UpdateSpot() {
                             await dispatch(deleteSpot(response.id))
                         }
                     }
-                    // navigate(`/spots/${id}`)
                 }
             }}>
                 <div className="location">
@@ -191,7 +179,6 @@ function UpdateSpot() {
                     <TextInput title="Image URL" formId="image3" errorMessage={errors.image3} inputType="url" defaultValue={image3} setValue={setImage3} />
                     <TextInput title="Image URL" formId="image4" errorMessage={errors.image4} inputType="url" defaultValue={image4} setValue={setImage4} />
                 </div>
-                {/* <button onClick={handleSubmit}>Update your Spot</button> */}
                 <button >Update your Spot</button>
             </form>
         </div>

@@ -1,6 +1,10 @@
 .LandingTile-wrapper {
-    /* width: auto; */
+
     margin: 16px 16px;
+    border-style: solid;
+    border-radius: 8px;
+    border-color: rgb(127, 145, 123);
+    box-shadow: 4px 4px 8px rgb(7, 41, 0,.7);
 }
 
 .lt-image-wrapper {
@@ -26,22 +30,10 @@
 
 
 .lt-image {
-    /* display: block; */
-    /* margin: 0 auto; */
-    /* position: relative;
-    left: -30px;
-    min-width: 300px; */
+ 
     min-height: auto;
     max-width: 500px;
 }
-
-/* .lt-image {
-    position: relative;
-    left: -30px;
-    min-width: 300px;
-    min-height: auto;
-    max-width: 500px;
-} */
 
 .lt-tooltips {
     width: fit-content;

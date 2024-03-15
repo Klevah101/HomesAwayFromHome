@@ -40,17 +40,8 @@ function Reviews({ props }) {
     }
 
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-
-    // const handlePostReview = () => {
-    //     console.log("click")
-    // }
-
-    // console.log('review ID', props)
     return (<>
         <h2>Reviews</h2>
-        {/* {signedIn && <button onClick={handlePostReview}>Post a review</button>} */}
-        {/* <p>{props}</p> */}
         <div className="review-summary">
             <p><FaStar /></p>
             <p>{(() => {
@@ -58,8 +49,6 @@ function Reviews({ props }) {
                 if (props.rating) return ((props.rating - Math.floor(props.rating)) !== 0 ? props.rating.toFixed(2) : props.rating.toFixed(1))
             })()
             } </p>
-            {/* <p>{props.rating && props.rating - Math.floor(props.rating) === 0 ? props.rating.toFixed(1) || "New" : props.rating} </p> */}
-
             {!!props.rating && <p>·</p>}
             <p> {!!props.numReviews && props.numReviews} {props.numReviews <= 0 ? "New" : props.numReviews == 1 ? "Review" : props.numReviews > 1 ? "Reviews" : ""}</p>
         </div>

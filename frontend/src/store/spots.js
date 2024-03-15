@@ -63,7 +63,7 @@ export const deleteSpot = (id) => async (dispatch) => {
     return data;
 }
 
-export const createSpot = (spotInfo) => async (dispatch) => {
+export const createSpot = (spotInfo) => async () => {
 
     //separate into two distinct thunks if time permits
     // info should be an about that contains {address, city, state, country, lat, lng, name, description, price}
@@ -89,7 +89,7 @@ export const createSpot = (spotInfo) => async (dispatch) => {
             body: body
         }
         const response = await csrfFetch(`/api/spots/${id}/images`, options);
-        const res = await response.json()
+        await response.json()
 
     })
 
@@ -97,9 +97,9 @@ export const createSpot = (spotInfo) => async (dispatch) => {
     return data;
 }
 
-export const updateSpot = (spotInfo) => async (dispatch) => {
+export const updateSpot = (spotInfo) => async () => {
 
-    const { urls, info } = spotInfo;
+    const { info } = spotInfo;
     const body = JSON.stringify(info);
     const spotData = {
         method: "PUT",
@@ -112,16 +112,6 @@ export const updateSpot = (spotInfo) => async (dispatch) => {
     return data;
 }
 
-// export const getSpotDetails = (id) => async (dispatch) => {
-//     // console.log(id)
-//     const response = await fetch(`/api/spots/${id}`)
-//     const rawData = await response.json()
-//     // console.log("RAAAAAAAAAAAAAAAAWWWW", rawData);
-//     const data = { ...rawData };
-//     dispatch(setSpotDetails(data))
-//     // console.log("details/////////////////////", data)
-//     return data;
-// }
 
 export const getAllSpots = () => async (dispatch) => {
     dispatch(clearSpots);

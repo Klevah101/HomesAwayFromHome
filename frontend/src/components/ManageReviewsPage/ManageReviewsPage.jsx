@@ -29,8 +29,6 @@ function ManageReviewsPage() {
                             <p > {reviewSlice[key].Spot?.name}</p>
                             <p > {months[date.getMonth()]} {date.getFullYear()}</p>
                             <p > {reviewSlice[key].review}</p>
-                            {/* <button>Update</button>
-                        <button>Delete</button> */}
                             <OpenModalButton buttonText="Update" modalComponent={<ReviewUpdateModal id={reviewSlice[key].id} />} />
                             <OpenModalButton buttonText="Delete" modalComponent={<DeleteReviewModal id={reviewSlice[key].id} parent="ManageReviewPage" spotId={reviewSlice[key].Spot?.id} />} />
                         </div>

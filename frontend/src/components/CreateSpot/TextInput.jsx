@@ -11,7 +11,4 @@ function TextInput({ formId, title, errorMessage, inputType, setValue, defaultVa
     )
 }
 
-{/* <label htmlFor="country"><p> Country <span className="error">{errors.country}</span></p></label>
-<input type="text" defaultValue={country} id="country" onChange={(e) => { setCountry(e.target.value) }} /> */}
-
 export default TextInput;

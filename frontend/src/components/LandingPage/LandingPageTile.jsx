@@ -8,12 +8,10 @@ import { useDispatch } from 'react-redux';
 function LandingPageTile({ spot, showButtons }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
     const handleUpdate = async () => {
         await dispatch(getSpotDetails(spot.id))
         navigate(`/spots/${spot.id}`);
     }
-    // const [hover, setHover] = useState(false);
 
     return (
         <div className="LandingTile-wrapper clickable" onClick={handleUpdate}>
@@ -41,7 +39,6 @@ function LandingPageTile({ spot, showButtons }) {
                 : null
             }
         </div>
-
     )
 }
 
