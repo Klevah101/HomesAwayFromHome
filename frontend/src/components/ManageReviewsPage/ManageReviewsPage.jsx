@@ -5,6 +5,7 @@ import { useSelector } from "react-redux/es/hooks/useSelector";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
 import ReviewUpdateModal from "../Reviews/ReviewUpdateModal";
+import './ManageReviews.css'
 
 
 function ManageReviewsPage() {
@@ -17,24 +18,26 @@ function ManageReviewsPage() {
     const keys = Object.keys(reviewSlice)
 
     return (
-        <div>
+        <div className="manage-reviews-wrapper">
 
             <h2>Manage Reviews</h2>
-            {keys.map(key => {
-                const date = new Date(reviewSlice[key].createdAt)
-                return (
-                    <div key={reviewSlice[key].id}>
-                        <p > {reviewSlice[key].Spot?.name}</p>
-                        <p > {months[date.getMonth()]} {date.getFullYear()}</p>
-                        <p > {reviewSlice[key].review}</p>
-                        {/* <button>Update</button>
+            <div className="review-content">
+                {keys.map(key => {
+                    const date = new Date(reviewSlice[key].createdAt)
+                    return (
+                        <div className="review" key={reviewSlice[key].id}>
+                            <p > {reviewSlice[key].Spot?.name}</p>
+                            <p > {months[date.getMonth()]} {date.getFullYear()}</p>
+                            <p > {reviewSlice[key].review}</p>
+                            {/* <button>Update</button>
                         <button>Delete</button> */}
-                        <OpenModalButton buttonText="Update" modalComponent={<ReviewUpdateModal id={reviewSlice[key].id} />} />
-                        <OpenModalButton buttonText="Delete" modalComponent={<DeleteReviewModal id={reviewSlice[key].id} parent="ManageReviewPage" spotId={reviewSlice[key].Spot?.id} />} />
-                    </div>
-                )
-            }
-            )}
+                            <OpenModalButton buttonText="Update" modalComponent={<ReviewUpdateModal id={reviewSlice[key].id} />} />
+                            <OpenModalButton buttonText="Delete" modalComponent={<DeleteReviewModal id={reviewSlice[key].id} parent="ManageReviewPage" spotId={reviewSlice[key].Spot?.id} />} />
+                        </div>
+                    )
+                }
+                )}
+            </div>
         </div>
 
     )

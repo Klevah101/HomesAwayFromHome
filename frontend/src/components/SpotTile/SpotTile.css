@@ -3,34 +3,37 @@
     margin: 16px 16px;
 }
 
+
 .image-wrapper {
-    min-width: 300px;
-    max-width: 425px;
+    display: grid;
+    /* position: absolute; */
+    width: 400px;
     height: 300px;
     overflow: hidden;
-    /* align-content: center; */
+    align-content: center;
 }
 
-.image-wrapper p {
+/* .image-wrapper p {
     border: black;
     align-self: center;
-}
+} */
 
 .image {
-    position: relative;
+    /* position: relative;
     left: -30px;
-    min-width: 300px;
+    min-width: 300px; */
     min-height: auto;
     max-width: 500px;
 }
 
 .tooltips {
-    width: fit-content;
+    /* width: fit-content;
     position: relative;
-    top: 30px;
+    top: 50px;
     left: 50px;
     z-index: 1;
-    background-color: hsla(0, 0%, 100%, 0.7);
+    background-color: hsla(0, 0%, 100%, 0.7); */
+    display: none;
 }
 
 .manage-buttons button {

@@ -1,0 +1,14 @@
+.manage-reviews-wrapper {
+    margin: 50px;
+}
+
+.review-content {
+    margin: 0px 16px;
+}
+
+.review {
+    padding-bottom: 16px;
+    margin-block: 24px;
+    border-bottom: 2px;
+    border-bottom-style: solid;
+}

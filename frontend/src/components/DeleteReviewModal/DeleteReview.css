@@ -1,9 +1,11 @@
-.delete-modal {
+.delete-review-modal {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-.delete-modal button{
-   width:150px;
+
+.delete-review-modal button {
+    width: 80%;
+    height: 50px;
 }

@@ -15,13 +15,7 @@ input {
     width: 50ch;
 }
 
-h2 {
-    font-size: 3rem;
-}
 
-h3 {
-    font-size: 2rem;
-}
 
 #city {
     width: 30ch;
@@ -74,4 +68,8 @@ label {
 
     align-self: left;
     display: grid;
+}
+
+p {
+    margin: 4px 0;
 }

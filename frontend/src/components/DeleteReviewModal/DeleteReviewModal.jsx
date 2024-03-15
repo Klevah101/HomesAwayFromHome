@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { deleteReview, getReviews, getUserReviews } from "../../store/reviews";
 import { getSpotDetails } from "../../store/spot-details";
 import './DeleteReview.css'
+
 function DeleteReviewModal({ id, spotId, parent }) {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
@@ -40,10 +41,10 @@ function DeleteReviewModal({ id, spotId, parent }) {
             <h2>Confirm Delete</h2>
             <p>Are you sure you want to delete this review?</p>
             {/* <OpenModalButton buttonText="Yes (Delete Review)" modalComponent={<ConfirmDeleteModal id={id} spotId={spotId} />} /> */}
-            <div className="confirm-cancel-button">
+            {/* <div className="confirm-cancel-button"> */}
                 <button className="confirm" onClick={(e) => handleDelete(e)(id, spotId)} >Yes (Delete Review) </button>
                 <button className="cancel" onClick={handleNo}>No (Keep Review)</button>
-            </div>
+            {/* </div> */}
         </div>
     )
 }

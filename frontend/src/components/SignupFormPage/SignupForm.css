@@ -1,0 +1,24 @@
+#modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 16px;
+}
+.signup-form button{
+    padding: 4px 16px;
+    width: 80%;
+    height: 50px;
+}
+
+label{
+    display: flex;
+    flex-direction: column;
+}

@@ -51,9 +51,6 @@ p {
     font-size: 1rem;
 }
 
-.review-body {
-    background-color: white;
-}
 
 /* h2 {
     font-family: "Rubik", sans-serif;
@@ -70,6 +67,14 @@ p {
 h2 {
     font-size: 3rem;
     font-weight: bold;
+}
+
+h3 {
+    font-family: "Balsamiq Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.75rem;
+    margin-block: 4px 16px;
 }
 
 .clickable:hover {
@@ -100,6 +105,12 @@ textarea {
     width: 95%;
     height: 100px;
     margin: 0 8px;
+    background-color: rgba(62, 127, 129, 0.192);
+}
+
+input {
+    background-color: rgba(62, 127, 129, 0.192);
+    margin-bottom: 8px;
 }
 
 .confirm {
@@ -127,4 +138,8 @@ a {
 
 .two-item-input div {
     max-width: 50%;
+}
+
+button:disabled {
+    background-color: grey;
 }

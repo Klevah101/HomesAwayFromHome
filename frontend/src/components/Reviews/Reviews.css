@@ -1,7 +1,6 @@
 .review-summary {
     display: flex;
     flex-direction: flex;
-    ;
 }
 
 button {
@@ -12,4 +11,6 @@ button {
 
 .review-section{
     margin:16px;
+    border-bottom: 2px;;
+    border-bottom-style:solid ;
 }

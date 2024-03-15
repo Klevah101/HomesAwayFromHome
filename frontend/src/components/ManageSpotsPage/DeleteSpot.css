@@ -1,5 +1,12 @@
 .delete-spot-modal {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    /* background-color: red; */
+}
+
+.delete-spot-modal button {
+    width: 80%;
+    height: 50px;
 }

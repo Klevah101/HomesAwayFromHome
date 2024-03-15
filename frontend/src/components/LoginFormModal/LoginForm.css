@@ -1,0 +1,26 @@
+.demo-button {
+    max-width: 200px;
+    align-self: center;
+    width: 200px;
+    background-color: red;
+    height: 50px;
+}
+
+.demo-button-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form button {
+    padding: 4px 16px;
+    width: 53%;
+    height: 50px;
+}

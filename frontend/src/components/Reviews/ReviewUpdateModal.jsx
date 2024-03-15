@@ -7,8 +7,7 @@ import { getUserReviews, updateReview } from "../../store/reviews";
 import './ReviewUpdateModal.css'
 
 function ReviewUpdateModal({ id, spotName }) {
-    console.log(spotName.spotName)
-    console.log('here we go again again', id);
+
     const dispatch = useDispatch();
     const reviewsSlice = useSelector(state => state.reviews);
     const [error, setError] = useState('')
