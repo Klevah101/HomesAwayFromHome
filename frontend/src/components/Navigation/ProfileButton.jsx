@@ -46,12 +46,12 @@ function ProfileButton({ user }) {
                 <FaListUl className='profile-icon' /><p> </p><FaUserCircle className="profile-icon" />
             </button>
             <ul className={ulClassName} ref={ulRef}>
-                <li>Hello, {user.firstName}</li>
-                <li>{user.email}</li>
+                <li><p>Hello, {user.firstName}</p></li>
+                <li><p>{user.email}</p></li>
                 <li><NavLink to='/spots/current' className="menu-link">Manage Spots</NavLink></li>
                 <li><NavLink to='/reviews/current' className="menu-link">Manage Reviews</NavLink></li>
                 <li>
-                    <button onClick={logout} className="clickable">Log Out</button>
+                    <button onClick={logout} className="logout clickable">Log Out</button>
                 </li>
             </ul>
         </>

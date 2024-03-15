@@ -47,7 +47,7 @@ function ReviewUpdateModal({ id, spotName }) {
 
     for (let i = 1; i <= 5; i++) {
         starLayout.push(
-            <p key={i} onMouseEnter={() => {
+            <p className="clickable" key={i} onMouseEnter={() => {
                 setStars(i);
             }}
                 onMouseLeave={() => {
@@ -66,7 +66,7 @@ function ReviewUpdateModal({ id, spotName }) {
             <div className="review-rate-stars">
                 {starLayout} <label>Stars</label>
             </div>
-            <button disabled={review.length < 10 || stars === 0} onClick={handleClick}>Update Your Review</button>
+            <button className="review-post-update-button" disabled={review.length < 10 || stars === 0} onClick={handleClick}>Update Your Review</button>
         </div>
     )
 }

@@ -10,7 +10,7 @@ function SpotTile({ spot, showButtons, showDetails }) {
     }
 
     return (
-        <div className="spotTile-wrapper">
+        <div className="spotTile-wrapper clickable">
             <div className='image-wrapper' onClick={() => navigate(`/spots/${spot.id}`)}>
 
                 <p className="tooltips">{spot.name}</p>

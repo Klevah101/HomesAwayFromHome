@@ -1,3 +1,22 @@
+
+
+.post-review-modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 400px;
+    width:150%;
+    border-radius: 10px;
+}
+
 .review-rate-stars {
     display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.review-post-update-button {
+    width: 80%;
+    height: 50px;
 }
