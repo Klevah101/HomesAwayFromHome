@@ -48,7 +48,7 @@ function ReviewPostModal({ id }) {
         <div className="post-review-modal">
             <h2>How was your stay?</h2>
             <p>{error ? error : null}</p>
-            <textarea defaultValue={review} onChange={(e) => setReview(e.target.value)} />
+            <textarea placeholder={review} onChange={(e) => setReview(e.target.value)} />
             <div className="review-rate-stars">
                 {starLayout} <label>Stars</label>
             </div>
