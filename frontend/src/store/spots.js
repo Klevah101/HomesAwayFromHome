@@ -108,6 +108,16 @@ export const updateSpot = (spotInfo) => async () => {
 
     const response = await csrfFetch(`/api/spots/${info.id}`, spotData);
     const data = await response.json();
+
+    // info.urls.forEach(image => {
+    //     image.spotId = parseInt(id);
+    //     const body = JSON.stringify(image);
+    //     const options = {
+    //         method: "POST",
+    //         body: body
+    //     }
+
+    // })
     // console.log("Spot ID: ", id);
     return data;
 }

@@ -50,7 +50,7 @@ const dataset2 = [
     hashedPassword: bcrypt.hashSync('crabbypatty')
   },
   {
-    firstname: 'Demo',
+    firstName: 'Demo',
     lastName: 'lition',
     email: 'demo@user.io',
     username: 'Demo-lition',

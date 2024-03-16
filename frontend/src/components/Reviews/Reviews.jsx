@@ -7,6 +7,7 @@ import ReviewPostModal from './ReviewPostModal'
 import './Reviews.css';
 import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
 import ReviewUpdateModal from "./ReviewUpdateModal";
+import { trimTrailZero } from '../../utils/editTools'
 
 function Reviews({ props }) {
   
@@ -46,7 +47,7 @@ function Reviews({ props }) {
             <p><FaStar /></p>
             <p>{(() => {
                 if (!props.rating) return ""
-                if (props.rating) return ((props.rating - Math.floor(props.rating)) !== 0 ? props.rating.toFixed(2) : props.rating.toFixed(1))
+                if (props.rating) return ((props.rating - Math.floor(props.rating)) !== 0 ? trimTrailZero(props.rating.toFixed(2)) : props.rating.toFixed(1))
             })()
             } </p>
             {!!props.rating && <p>·</p>}

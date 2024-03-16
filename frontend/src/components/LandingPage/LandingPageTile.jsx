@@ -4,6 +4,7 @@ import { FaStar } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import { getSpotDetails } from '../../store/spot-details';
 import { useDispatch } from 'react-redux';
+import { trimTrailZero } from '../../utils/editTools'
 
 function LandingPageTile({ spot, showButtons }) {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ function LandingPageTile({ spot, showButtons }) {
                 <p><FaStar />{(() => {
                     const rating = spot.avgRating || "New";
                     if (typeof rating == "string") return rating;
-                    return ((rating - Math.floor(rating)) !== 0 ? rating.toFixed(2) : rating.toFixed(1))
+                    return ((rating - Math.floor(rating)) !== 0 ? trimTrailZero(rating.toFixed(2)) : rating.toFixed(1))
                 })()}</p>
             </div>
 

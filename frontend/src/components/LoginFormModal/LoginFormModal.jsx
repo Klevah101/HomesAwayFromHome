@@ -22,22 +22,28 @@ function LoginFormModal() {
       .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
-     
+
         if (data && data.message) {
           setErrors({ message: "The provided credentials were invalid." });
         }
       });
   };
-  const handleDemoLogin = () => {
-    dispatch(sessionActions.login(demoUser))
-      .then(closeModal)
+  const handleDemoLogin = (e) => {
+    e.preventDefault();
+    return dispatch(sessionActions.login(demoUser))
+      .then(closeModal).catch(async (res) => {
+        const data = await res.json();
+        if (data && data.message) {
+          setErrors(data.message);
+        }
+      })
   }
 
   return (
     <>
       <form className="login-form" onSubmit={handleSubmit}>
-      <h1>Log In</h1>
-      <p className="error">{errors.message}</p>
+        <h1>Log In</h1>
+        <p className="error">{errors.message}</p>
         <label>
           Username or Email
           <input

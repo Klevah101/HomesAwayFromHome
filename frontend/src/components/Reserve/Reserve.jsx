@@ -1,5 +1,6 @@
 import './Reserve.css'
 import { FaStar } from 'react-icons/fa'
+import { trimTrailZero } from '../../utils/editTools'
 function Reserve({ props }) {
     return (
         <div className="reserve-wrapper">
@@ -9,7 +10,7 @@ function Reserve({ props }) {
                     <p><FaStar /> </p>
                     <p>{(() => {
                         // if (!props.rating) return "New"
-                        if (props.rating) return (props.rating - Math.floor(props.rating)) !== 0 ? props.rating.toFixed(2) : props.rating.toFixed(1)
+                        if (props.rating) return (props.rating - Math.floor(props.rating)) !== 0 ? trimTrailZero(props.rating.toFixed(2)) : props.rating.toFixed(1)
                     })()
                     } </p>
                     {!!props.rating && <p>·</p>}

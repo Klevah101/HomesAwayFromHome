@@ -18,14 +18,14 @@ function CreateSpot() {
     const [state, setState] = useState('');
     const [latitude, setLatitude] = useState('');
     const [longitude, setLongitude] = useState('');
-    const [description, setDescription] = useState('Please write at least 30 characters');
-    const [title, setTitle] = useState('Name your spot');
-    const [price, setPrice] = useState('Price per night (USD)');
-    const [previewImage, setPreviewImage] = useState('Preview Image URL');
-    const [image1, setImage1] = useState('Image URL');
-    const [image2, setImage2] = useState('Image URL');
-    const [image3, setImage3] = useState('Image URL');
-    const [image4, setImage4] = useState('Image URL');
+    const [description, setDescription] = useState('');
+    const [title, setTitle] = useState('');
+    const [price, setPrice] = useState('');
+    const [previewImage, setPreviewImage] = useState('');
+    const [image1, setImage1] = useState('');
+    const [image2, setImage2] = useState('');
+    const [image3, setImage3] = useState('');
+    const [image4, setImage4] = useState('');
     const [errors, setErrors] = useState({})
 
     const inputs = {
@@ -44,7 +44,7 @@ function CreateSpot() {
         image3,
         image4
     }
- 
+
     return (
         <div className="spotFormWrapper">
 
@@ -96,22 +96,22 @@ function CreateSpot() {
                     <h2>Create a new Spot</h2>
                     <h3>Where&apos;s your place located?</h3>
                     <p>Guest will only get your exact address once they booked a reservation.</p>
-                    <TextInput title="Country" formId="country" errorMessage={errors.country} inputType="text" defaultValue={country} setValue={setCountry} />
-                    <TextInput title="Street Address" formId="address" errorMessage={errors.address} inputType="text" defaultValue={address} setValue={setAddress} />
+                    <TextInput title="Country" formId="country" errorMessage={errors.country} inputType="text" setValue={setCountry} placeholder={"Country"} />
+                    <TextInput title="Street Address" formId="address" errorMessage={errors.address} inputType="text" placeholder={"Address"} setValue={setAddress} />
                     <div className="two-item-input">
                         <div>
-                            <TextInput title="City" formId="city" errorMessage={errors.city} inputType="text" defaultValue={city} setValue={setCity} />
+                            <TextInput title="City" formId="city" errorMessage={errors.city} inputType="text" placeholder="City" setValue={setCity} />
                         </div>
                         <div>
-                            <TextInput title="State" formId="state" errorMessage={errors.state} inputType="text" defaultValue={state} setValue={setState} />
+                            <TextInput title="State" formId="state" errorMessage={errors.state} inputType="text" placeholder="State" setValue={setState} />
                         </div>
                     </div>
                     <div className="two-item-input">
                         <div>
-                            <TextInput title="Latitude" formId="latitude" errorMessage={errors.latitude} inputType="text" defaultValue={latitude} setValue={setLatitude} />
+                            <TextInput title="Latitude" formId="latitude" errorMessage={errors.latitude} inputType="text" placeholder="Latitude" setValue={setLatitude} />
                         </div>
                         <div>
-                            <TextInput title="Longitude" formId="longitude" errorMessage={errors.longitude} inputType="text" defaultValue={longitude} setValue={setLongitude} />
+                            <TextInput title="Longitude" formId="longitude" errorMessage={errors.longitude} inputType="text" placeholder="Longitude" setValue={setLongitude} />
                         </div>
                     </div>
                     <hr />
@@ -120,14 +120,14 @@ function CreateSpot() {
                     <h3>Describe your place to guests  </h3>
                     <p>Mention the best features of your space, any special amentities like
                         fast wifi or parking, and what you love about the neighborhood.</p>
-                    <TextAreaInput title="Description" formId="description" errorMessage={errors.description} defaultValue={description} setValue={setDescription} />
+                    <TextAreaInput title="Description" formId="description" errorMessage={errors.description} placeholder="Please write at least 30 characters..." setValue={setDescription} />
                     <hr />
                 </div>
                 <div>
                     <h3>Create a title for your spot</h3>
                     <p>Catch guests&apos; attention with a spot title that highlights what makes
                         your place special.</p>
-                    <TextInput title="Title" formId="title" errorMessage={errors.title} inputType="text" defaultValue={title} setValue={setTitle} />
+                    <TextInput title="Title" formId="title" errorMessage={errors.title} inputType="text" placeholder="Name of your spot" setValue={setTitle} />
                     <hr />
                 </div>
                 <div>
@@ -135,7 +135,7 @@ function CreateSpot() {
                     </h3>
                     <p>Competitive pricing can help your listing stand out and rank higher
                         in search results.</p>
-                    <TextInput title="Price" formId="price" errorMessage={errors.price} inputType="text" defaultValue={price} setValue={setPrice} />
+                    <TextInput title="Price" formId="price" errorMessage={errors.price} inputType="text" placeholder="Price per night (USD)" setValue={setPrice} />
                     <hr />
                 </div>
                 <div>
@@ -144,11 +144,12 @@ function CreateSpot() {
                     <p>
                         Submit a link to at least one photo to publish your spot
                     </p>
-                    <TextInput title="PreviewImage" formId="previewImage" errorMessage={errors.previewImage} inputType="text" defaultValue={previewImage} setValue={setPreviewImage} />
-                    <TextInput title="Image URL" formId="image1" errorMessage={errors.image1} inputType="text" defaultValue={image1} setValue={setImage1} />
-                    <TextInput title="Image URL" formId="image2" errorMessage={errors.image2} inputType="text" defaultValue={image2} setValue={setImage2} />
-                    <TextInput title="Image URL" formId="image3" errorMessage={errors.image3} inputType="text" defaultValue={image3} setValue={setImage3} />
-                    <TextInput title="Image URL" formId="image4" errorMessage={errors.image4} inputType="text" defaultValue={image4} setValue={setImage4} />
+                    <TextInput title="PreviewImage" formId="previewImage" errorMessage={errors.previewImage} inputType="text" placeholder="Preview Image URL" setValue={setPreviewImage} />
+                    <p style={{ color: "red", fontSize: "1rem" }} >{errors.previewImageValid}</p>
+                    <TextInput title="Image URL" formId="image1" errorMessage={errors.image1} inputType="text" placeholder="Image URL" setValue={setImage1} />
+                    <TextInput title="Image URL" formId="image2" errorMessage={errors.image2} inputType="text" placeholder="Image URL" setValue={setImage2} />
+                    <TextInput title="Image URL" formId="image3" errorMessage={errors.image3} inputType="text" placeholder="Image URL" setValue={setImage3} />
+                    <TextInput title="Image URL" formId="image4" errorMessage={errors.image4} inputType="text" placeholder="Image URL" setValue={setImage4} />
                 </div>
                 <button>Create a Spot</button>
             </form>
